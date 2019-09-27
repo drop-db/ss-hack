@@ -28,7 +28,7 @@ app.use(methodOverride());
 app.use(helmet());
 
 app.use(cors({
-    origin: isLocal ? 'http://localhost:3000' : null,
+    origin: isLocal ? '*' : null,
     credentials: true,
 }));
 

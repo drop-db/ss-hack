@@ -6,9 +6,9 @@ const setAuthCookies = require('../../utils/setAuthCookies');
 
 exports.login = async (req, res) => {
     const { email, password } = req.body;
-    const tokens = await getTokensByEmailAndPassword(email, password);
+    const { tokens, user } = await getTokensByEmailAndPassword(email, password);
     setAuthCookies(tokens, res);
-    return sendResponse(res, httpStatus.OK, tokens);
+    return sendResponse(res, httpStatus.OK, user);
 };
 
 exports.logout = async (req, res) => {
