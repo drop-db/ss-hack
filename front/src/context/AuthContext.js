@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 const AuthContext = React.createContext('auth');
 
 const AUTH_STATUS = {
@@ -19,9 +20,10 @@ export default class Container extends React.Component {
         };
         this.funcs = {
             authorizeByToken: this.authorizeByToken,
-            authorizeByLogin: this.authorizeByLogin,
+            authorizeByEmail: this.authorizeByEmail,
             logout: this.logout,
-            testLogin: this.testLogin
+            testLogin: this.testLogin,
+            registerUser: this.registerUser
         };
 
         window.aa = this;
@@ -29,17 +31,24 @@ export default class Container extends React.Component {
 
     testLogin = () => {
         this.setState({user: 'Admin'});
-    }
+    };
+
+    registerUser = fields => {
+        const callback = response => console.log(response);
+        axios.post('localhost/api/v1/auth', fields)
+            .then( response => callback(response))
+    };
 
     async authorizeByToken(){
         console.log('Authorized by token');
     }
 
-    async authorizeByLogin({login, password}){
-        console.log(`Authorized by login ${login} with password ${password}`);
+    async authorizeByEmail({email, password}){
+        console.log(`Authorized by email ${email} with password ${password}`);
     }
 
     logout = () => {
+        //TODO clean storage
         this.setState({user: null});
     };
 

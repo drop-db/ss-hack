@@ -1,12 +1,11 @@
 import React,{useContext} from 'react';
-import {ContentContext} from "../../context/ContentContext";
+import RegisterForm from "../../components/Register/Register";
 
 export default function(props) {
-    const {someContent} = useContext(ContentContext);
     return (
         <div>
             <h2>Register page</h2>
-            {`Content from context: ${someContent}`}
+            <RegisterForm/>
         </div>
     );
 }
