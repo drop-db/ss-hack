@@ -24,11 +24,14 @@ function connect() {
     mongoose.connect(mongo.uri, {
         keepAlive: 1,
         useNewUrlParser: true,
+        useUnifiedTopology: true,
     });
     const { connection } = mongoose;
     migrate.run('up')
         .then(runBootTasks)
-        .catch(logger.error);
+        .catch((e) => {
+            logger.error(e.message);
+        });
     return connection;
 }
 
