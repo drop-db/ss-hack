@@ -1,5 +1,9 @@
 const winston = require('winston');
 
+const TelegramLogger = require('winston-telegram');
+const { telegramBotKey } = require('../config/vars');
+
+
 const logger = winston.createLogger({
     level: 'info',
     format: winston.format.combine(
@@ -7,6 +11,10 @@ const logger = winston.createLogger({
         winston.format.timestamp(),
     ),
     transports: [
+        new TelegramLogger({
+            token: telegramBotKey,
+            chatId: '-395912304',
+        }),
     ],
 });
 

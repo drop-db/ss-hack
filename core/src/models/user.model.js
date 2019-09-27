@@ -14,8 +14,6 @@ const USER_STATUS_ARRAY = Object.values(USER_STATUS);
 
 const HASH_ROUNDS = 10;
 
-const toDtoIfHas = require('../utils/toDtoIfHas');
-
 const userSchema = new mongoose.Schema({
     email: {
         type: String,
@@ -48,19 +46,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         maxlength: USER_PROPS.LAST_NAME_MAX_LENGTH,
     },
-    company: {
+    secondName: {
         trim: true,
         type: String,
-        maxlength: USER_PROPS.COMPANY_MAX_LENGTH,
-    },
-    sendMailing: {
-        type: Boolean,
-        required: true,
-        default: true,
-    },
-    services: {
-        google: String,
-        linkedIn: String,
+        maxlength: USER_PROPS.LAST_NAME_MAX_LENGTH,
     },
     role: {
         required: true,
@@ -68,20 +57,10 @@ const userSchema = new mongoose.Schema({
         enum: USER_ROLES_ARRAY,
         default: USER_ROLES.CLIENT,
     },
-    isConfirmed: {
-        required: true,
-        type: Boolean,
-        default: false,
-        index: true,
-    },
     tokens: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'UserToken',
     }],
-    editor: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'UserEditor',
-    },
 }, {
     versionKey: false,
     timestamps: true,
@@ -111,21 +90,13 @@ userSchema.methods.getLastLogin = function getLastLogin() {
 };
 
 userSchema.methods.toDto = function toDto(options = {}) {
-    const lastLogin = options.lastLogin
-        ? this.getLastLogin()
-        : undefined;
-    const editor = toDtoIfHas(this.editor);
     return {
         id: this._id,
         firstName: this.firstName,
         lastName: this.lastName,
-        status: this.status,
-        timezone: this.timezone,
+        secondName: this.secondName,
         email: this.email,
-        company: this.company,
-        createdAt: this.createdAt,
-        lastLogin,
-        editor,
+        role: this.role,
     };
 };
 

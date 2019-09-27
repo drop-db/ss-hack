@@ -9,6 +9,7 @@ module.exports = {
     env: process.env.NODE_ENV,
     port: process.env.PORT,
     test: process.env.TEST,
+    telegramBotKey: process.env.TELEGRAM_BOT_KEY,
     tokens: {
         access: {
             secret: process.env.JWT_ACCESS_SECRET,
@@ -25,6 +26,7 @@ module.exports = {
             expiresHours: process.env.RESET_PASS_EXPIRATION_HOURS,
         },
     },
+    noEmailRegister: process.env.NO_EMAIL_REGISTER,
     mongo: {
         uri: process.env.MONGO_URI,
     },
