@@ -1,0 +1,6 @@
+module.exports = {
+    FIRST_NAME_MAX_LENGTH: 16,
+    LAST_NAME_MAX_LENGTH: 16,
+    PASSWORD_MAX_LENGTH: 128,
+    EMAIL_MAX_LENGTH: 32,
+};
