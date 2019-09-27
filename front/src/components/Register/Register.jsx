@@ -49,7 +49,7 @@ function RegisterForm(props) {
         confirmPassword: '',
         firstName: '',
         lastName: '',
-        secondName: '',
+        secondName: 'N',
         age: '',
         education: '',
         extraInfo:'',

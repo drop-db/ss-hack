@@ -16,7 +16,8 @@ export default class Container extends React.Component {
         this.state = {
             user: null,
             authStatus: AUTH_STATUS.NOT_TOUCHED,
-            triedLoginByToken: false
+            triedLoginByToken: false,
+            checkEmailAfterRegistration: false
         };
         this.funcs = {
             authorizeByToken: this.authorizeByToken,
@@ -34,18 +35,18 @@ export default class Container extends React.Component {
     };
 
     registerUser = fields => {
-        const callback = response => console.log(response);
-        axios.post('/api/v0/users', fields)
-            .then( response => callback(response))
+        const onSuccess = () => this.setState({checkEmailAfterRegistration: true});
+        const onError = error => console.log(error);
+        axios.post('http://192.168.1.96:3000/api/v1/users', fields)
+            .then( onSuccess, onError)
     };
 
-    async authorizeByToken(){
-        console.log('Authorized by token');
-    }
-
-    async authorizeByEmail({email, password}){
-        console.log(`Authorized by email ${email} with password ${password}`);
-    }
+    authorizeByEmail = async ({email, password}) => {
+        const onSuccess = response => this.setState({user: response});
+        const onError = error => console.log(error);
+        axios.post('http://192.168.1.96:3000/api/v1/auth', {email, password})
+            .then( onSuccess, onError)
+    };
 
     logout = () => {
         //TODO clean storage
