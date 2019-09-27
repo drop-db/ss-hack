@@ -35,7 +35,7 @@ export default class Container extends React.Component {
 
     registerUser = fields => {
         const callback = response => console.log(response);
-        axios.post('localhost/api/v1/auth', fields)
+        axios.post('/api/v0/users', fields)
             .then( response => callback(response))
     };
 

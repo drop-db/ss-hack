@@ -47,9 +47,9 @@ function RegisterForm(props) {
         email: '',
         password: '',
         confirmPassword: '',
-        name: '',
-        surname: '',
-        fatherName: '',
+        firstName: '',
+        lastName: '',
+        secondName: '',
         age: '',
         education: '',
         extraInfo:'',
@@ -76,13 +76,13 @@ function RegisterForm(props) {
                 placeholder={'Подтвердите пароль'}
             />
             <TextField
-                value={values.name}
-                onChange={handleChange('name')}
+                value={values.firstName}
+                onChange={handleChange('firstName')}
                 placeholder={'Имя'}
             />
             <TextField
-                value={values.surname}
-                onChange={handleChange('surname')}
+                value={values.lastName}
+                onChange={handleChange('lastName')}
                 placeholder={'Фамилия'}
             />
             <TextField
