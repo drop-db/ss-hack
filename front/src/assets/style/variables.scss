@@ -1,0 +1,35 @@
+
+/*
+    Fonts
+*/
+
+$montserrat: "Montserrat";
+$font-family-base: $montserrat, sans-serif;
+
+$font-size-base: 16px;
+$rem-baseline: $font-size-base;
+$rem-fallback: true;
+
+$header-font: "Quicksand";
+
+/*
+    Colors
+*/
+
+$white: #fff;
+$black: #000;
+$active-elem: #e1156f;
+$counter-red: #EF1D79;
+$grey: #aeb0bd;
+$gray: #29313F;
+$dark: #141b27;
+$background-color: #1d2430;
+$font-color: #5f6c7f;
+$light-gray: #9EAEC7;
+$blue: #5169DE;
+$dark-blue: #2E3D78;
+$label-color: #9BAECA;
+$inactive-gray: #7B889E;
+
+
+$error-color: rgba(255,223,223,.85);
