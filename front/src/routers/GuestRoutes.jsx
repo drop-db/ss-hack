@@ -9,7 +9,6 @@ export default function GuestRoutes() {
     return [
         <Route exact path="/login" component={LoginPage} />,
         <Route exact path="/register" component={RegisterPage} />,
-        <Route exact path="/chat" component={ChatPage} />,
         <Redirect to="/login" />
     ];
 }

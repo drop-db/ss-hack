@@ -1,10 +1,12 @@
-import superagent from "superagent";
 import io from 'socket.io-client';
 
 export default class SocketClient {
     constructor({events, url}) {
         this.socket = io(url, {transports: ['websocket']});
-        events.forEach(({key, handler}) => {
+        this.socket.on('connect', () => {
+            console.log('socker connected');
+        });
+            events.forEach(({key, handler}) => {
             this.socket.on(key, handler);
         });
     }

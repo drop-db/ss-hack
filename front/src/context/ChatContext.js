@@ -40,8 +40,6 @@ class ChatContainer extends React.Component {
         this._tableOfWaitingResults = {};
         this._iceCandidateListeners = {};
 
-        this.getStarted();
-
         window.ff = this;
         navigator.getUserMedia = navigator.getUserMedia || navigator.mozGetUserMedia ||
             navigator.webkitGetUserMedia || navigator.mediaDevices.getUserMedia;
@@ -55,7 +53,7 @@ class ChatContainer extends React.Component {
 
         const {authValue} = props;
         if (authValue && authValue.user) {
-            // this.getStarted({authValue});
+            this.getStarted();
         }
     }
 
@@ -75,14 +73,11 @@ class ChatContainer extends React.Component {
     componentWillReceiveProps({authValue: nextAuthValue}) {
         const {authValue} = this.props;
         if (!authValue.user && nextAuthValue.user) {
-// чтото            this.getStartedChatsInfo({authValue: nextAuthValue});
+            this.getStarted();
         }
         if (authValue.user && !nextAuthValue.user) {
-            /*
-                        this.socket.disconnect();
-                        this.setState(DEFAULT_STATE);
-                        this.setState({chatsMap: {}});
-            */
+            this.socket.disconnect();
+            this.setState(DEFAULT_STATE);
         }
     }
 
