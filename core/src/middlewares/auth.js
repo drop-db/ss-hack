@@ -7,8 +7,7 @@ const handleJWT = (req, res, next, roles, options) => async (err, user, info) =>
     if (error || !user) return next(new UnauthorizedError());
 
     const wrongRole = roles && !roles.includes(user.role);
-    const editorWithoutBio = user.tokenPayload.bioNotEntered && !options.withoutEditorBio;
-    if (wrongRole || editorWithoutBio) {
+    if (wrongRole) {
         return next(new ForbiddenError());
     }
     req.user = user;

@@ -7,14 +7,16 @@ const UnauthorizedError = require('../../utils/APIErrors/UnauthorizedError');
 const APIError = require('../../utils/APIError');
 
 module.exports = async function getTokensByEmailAndPassword(email, password) {
-    const lowerEmail = email.toLowerCase();
-    const user = await User.findOne({ email: lowerEmail }).populate('editor');
-    if (!user || user.status === User.USER_STATUS.BLOCKED) throw new UnauthorizedError();
+    const lowerEmail = email.toLowerCase().trim();
+    const user = await User.findOne({ email: lowerEmail });
+    if (!user || user.status === User.USER_STATUS.NOT_CONFIRMED) throw new UnauthorizedError();
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) throw new UnauthorizedError();
 
-    if (!user.isConfirmed) throw new APIError(httpStatus.FORBIDDEN, userErrors.userNotConfirmed);
-
-    return generateTokensByUser(user);
+    const tokens = await generateTokensByUser(user);
+    return {
+        tokens,
+        user: user.toDto(),
+    };
 };

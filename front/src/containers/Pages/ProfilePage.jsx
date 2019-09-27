@@ -6,7 +6,7 @@ export default function(props) {
     return (
         <div >
             <h2>Profile Page</h2>
-            {`Your name is ${user}`}
+            {`Your name is ${user.firstName}`}
         </div>
     );
 }

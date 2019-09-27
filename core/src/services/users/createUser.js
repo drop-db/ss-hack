@@ -1,6 +1,8 @@
 const User = require('../../models/user.model');
+const { noEmailRegister } = require('../../config/vars');
 const { generateConfirmToken } = require('./createConfirmToken');
 const { sendConfirmEmail } = require('./sendConfirmEmail');
+const withTransaction = require('../../utils/withTransaction');
 
 /**
  * Register new user client
@@ -17,35 +19,33 @@ const { sendConfirmEmail } = require('./sendConfirmEmail');
  * @param {boolean} [data.noEmail] - Send confirm email link
  * @returns {Promise<void>}
  */
-module.exports = async function createUser(data) {
+async function createUser(data, session) {
     const {
         firstName,
         lastName,
         email,
-        sendMailing,
-        company,
         password,
         role,
-        noEmail,
-        timezone,
+        secondName,
     } = data;
 
     const user = await User.create({
         firstName,
         lastName,
         email,
-        sendMailing,
-        company,
         password,
-        timezone,
+        secondName,
         role,
+        status: noEmailRegister ? User.USER_STATUS.ACTIVE : User.USER_STATUS.NOT_CONFIRMED,
     });
 
-    const confirmToken = await generateConfirmToken(user);
+    if (!noEmailRegister) {
+        const confirmToken = await generateConfirmToken(user, session);
+        await sendConfirmEmail(confirmToken, email);
+    }
 
-    await Promise.all([
-        addSubscriber(email, firstName, lastName),
-        !noEmail && sendConfirmEmail(confirmToken, email),
-    ]);
     return user;
-};
+}
+
+exports.createUser = createUser;
+exports.createUserWT = withTransaction(createUser);

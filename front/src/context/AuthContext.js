@@ -42,23 +42,30 @@ export default class Container extends React.Component {
     };
 
     authorizeByEmail = async ({email, password}) => {
-        const onSuccess = response => this.setState({user: response});
+        const onSuccess = response => {
+            if (response.status === 200) {
+                localStorage.setItem('sunCityUser', JSON.stringify(response.data));
+            } else {
+                //TODO show error while logging in
+                console.log('Error!')
+            }
+
+            this.setState({user: response.data});
+        };
         const onError = error => console.log(error);
         axios.post('http://192.168.1.96:3000/api/v1/auth', {email, password})
             .then( onSuccess, onError)
     };
 
     logout = () => {
-        //TODO clean storage
+        localStorage.removeItem('sunCityUser');
         this.setState({user: null});
     };
 
-    // async componentDidMount() {
-    //     await this.authorizeByTokenToken();
-    //     this.setState({
-    //         triedLoginByToken: true
-    //     });
-    // }
+    async componentDidMount() {
+        const user = JSON.parse(localStorage.getItem('sunCityUser'));
+        if (user) this.setState({user});
+    }
 
 
     render() {
