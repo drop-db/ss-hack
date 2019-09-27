@@ -1,12 +1,11 @@
 import React,{useContext} from 'react';
-import {AuthContext} from "../../context/AuthContext";
+import LoginForm from "../../components/Login/Login";
 
 export default function(props) {
-    const {testLogin} = useContext(AuthContext);
     return (
         <div>
-            <h2>Login page</h2>
-            <button onClick={testLogin}>Login</button>
+            <h2>LOGIN PAGE</h2>
+            <LoginForm/>
         </div>
     );
 }
