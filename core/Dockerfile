@@ -1,14 +1,14 @@
-FROM node:10.16.0
+FROM node:10.16.0-alpine
 
 RUN apk update
 RUN apk upgrade
-RUN apk add --update ca-certificates git make python g++ build-base ffmpeg
+RUN apk add --update ca-certificates git
 
 EXPOSE 3000
 
-WORKDIR /app
-ADD package.json package-lock.json ./
+RUN git clone https://github.com/drop-db/ss-hack
+WORKDIR /ss-hack/core
+
 RUN npm i
-ADD . /app
 
 ENTRYPOINT ["npm", "start"]
