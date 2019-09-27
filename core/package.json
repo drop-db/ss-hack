@@ -61,7 +61,8 @@
     "socket.io": "^2.3.0",
     "uuid": "^3.1.0",
     "winston": "^3.1.0",
-    "winston-slack-webhook-transport": "^1.1.0"
+    "winston-slack-webhook-transport": "^1.1.0",
+    "winston-telegram": "^2.2.0"
   },
   "devDependencies": {
     "apidoc": "^0.17.5",

@@ -6,8 +6,8 @@ const userDataValidation = require('../../validations/data/user.data.validation'
 const router = express.Router();
 
 router.post(
-    '/client', userSchemeValidations.registerClient, userDataValidation.registerClientDataValidation,
-    controller.confirmUser,
+    '/', userSchemeValidations.createUser, userDataValidation.createUser,
+    controller.createUser,
 );
 
 module.exports = router;

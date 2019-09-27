@@ -21,8 +21,7 @@ const jwt = async (payload, done) => {
         const user = await User.findById(payload.userId);
         if (user) {
             user.tokenPayload = payload;
-            const token = await UserToken.findById(payload.refreshTokenId);
-            if (token) return done(null, user, null);
+            return done(null, user, null);
         }
         return done(null, false);
     } catch (error) {

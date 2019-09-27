@@ -3,14 +3,14 @@ const sendResponse = require('../../utils/sendResponseV1');
 const wrapAsyncMiddleware = require('../../middlewares/asyncMiddleware');
 
 const confirmUserByToken = require('../../services/users/confirmUserByToken');
+const {createUserWT} = require('../../services/users/createUser');
 const createClient = require('../../services/users/createClient');
 const setAuthCookies = require('../../utils/setAuthCookies');
 
-async function confirmUser(req, res) {
-    const tokens = await confirmUserByToken(req.params);
+async function registerUser(req, res) {
+     await createUserWT(req.body);
 
-    setAuthCookies(tokens, res);
-    return sendResponse(res, httpStatus.OK, tokens);
+    return sendResponse(res, httpStatus.CREATED);
 }
 
-exports.confirmUser = wrapAsyncMiddleware(confirmUser);
+exports.createUser = wrapAsyncMiddleware(registerUser);
