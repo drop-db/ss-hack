@@ -47,7 +47,7 @@ export default class Container extends React.Component {
         const onError = error => console.log(error);
         const hobbies = fields.hobbies.split(',');
         const result = {...fields, birthday: new Date(fields.birthday), hobbies};
-        axios.post('http://192.168.1.96:3000/api/v1/users', result)
+        axios.post(`${host.HOST_API}/users`, result)
              .then( onSuccess, onError)
     };
 

@@ -122,7 +122,7 @@ function RegisterForm(props) {
         phone:'',
         isMarried: false,
         birthday: '',
-        city: '',
+        city: cities[0].value,
         livingArea: '',
         sendMailing: true,
         profession: '',
