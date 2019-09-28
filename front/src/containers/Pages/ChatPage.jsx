@@ -11,7 +11,7 @@ export default function(props) {
         localVideoRef.current.srcObject = localStream;
     }, [ localStream ]);
     useEffect(() => {
-        remoteVideoRef.current.srcObject = localStream;
+        remoteVideoRef.current.srcObject = remoteStream;
     }, [ remoteStream ]);
 
     return (
@@ -21,12 +21,14 @@ export default function(props) {
                 Start call
             </Button>
             <video
+                key="local"
                 ref={localVideoRef}
                 playsInline
                 autoPlay
                 border="5"
             />
             <video
+                key="remote"
                 ref={remoteVideoRef}
                 playsInline
                 autoPlay
