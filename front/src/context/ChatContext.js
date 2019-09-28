@@ -30,7 +30,8 @@ class ChatContainer extends React.Component {
         this.state = DEFAULT_STATE;
         this.funcs = {
             sendMessage: this.sendMessage,
-            startCall: this.startCall
+            startCall: this.startCall,
+            sendChatMessage: this.sendChatMessage
         };
 
         this.eventHandlers = [
@@ -70,6 +71,10 @@ class ChatContainer extends React.Component {
     _sendWebRTCMessage = async (data) => {
         console.log(`sending...${data.toUserId}`);
         await this.send(WEBRTC, data);
+    };
+
+    sendChatMessage = async (chatId, message) => {
+        await this.send('messages:new', { chatId, message })
     };
 
     componentWillReceiveProps({authValue: nextAuthValue}) {

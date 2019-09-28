@@ -10,7 +10,8 @@ class ContextContainer extends React.Component {
         super(props);
         this.state = {
             children: [],
-            users: []
+            users: [],
+            chats: []
         };
         this.funcs = {
             registerChild: this.registerChild,
@@ -29,8 +30,11 @@ class ContextContainer extends React.Component {
 
     fetchInit = async (user) => {
         await this.getAllUsers();
-        const availableChats = await window.socketHACKATON.send('messages:chats', {userId: user.id});
-        console.log('fetched! ', availableChats);
+        const { chats }= await window.socketHACKATON.send('messages:chats', {userId: user.id});
+        this.setState({ chats });
+        console.log('fetched! ', chats);
+
+
         // todo attach user and chats in context
 
     }
