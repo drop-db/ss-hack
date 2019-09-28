@@ -11,4 +11,8 @@ module.exports = {
         code: 202,
         message: 'user confirmed',
     },
+    userNotFound: {
+        code: 203,
+        message: 'user not found',
+    },
 };

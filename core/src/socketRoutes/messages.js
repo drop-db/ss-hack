@@ -4,7 +4,7 @@ const emitInRoom = require('../utils/emitInRoomIfActive');
 
 const NEW_MESSAGE = 'messages:new';
 
-module.exports = function setCommonMessages(socket) {
+module.exports = function setMessageMessages(socket) {
     socket.on(NEW_MESSAGE, async (messageData) => {
         const res = await createNewMessageWT(socket.userId, messageData);
         if (!res) return;

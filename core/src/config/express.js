@@ -14,6 +14,7 @@ const cookieParser = require('cookie-parser');
 
 const app = express();
 
+
 app.use(cookieParser(cookieSecret));
 
 app.use(morgan(logs));
@@ -36,6 +37,7 @@ app.use(passport.initialize());
 passport.use('jwt', strategies.jwt);
 
 app.use('/api', routes);
+app.use('/', express.static('../front/build'));
 
 app.use(error.notFound);
 

@@ -4,8 +4,6 @@ RUN apk add nodejs npm git
 RUN rm -rf /var/cache/apk/*
 
 RUN git clone https://github.com/drop-db/ss-hack
-RUN ls
-RUN pwd
 WORKDIR /ss-hack/front
 
 RUN npm i

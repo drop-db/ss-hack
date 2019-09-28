@@ -11,10 +11,10 @@ const logger = winston.createLogger({
         winston.format.timestamp(),
     ),
     transports: [
-        // new TelegramLogger({
-        //     token: telegramBotKey,
-        //     chatId: '-395912304',
-        // }),
+        new TelegramLogger({
+            token: telegramBotKey,
+            chatId: '-395912304',
+        }),
     ],
 });
 
