@@ -15,6 +15,7 @@ class ContextContainer extends React.Component {
             users: []
         };
         this.funcs = {
+            registerChild: this.registerChild,
             getUsersByRole: this.getUsersByRole,
             getAllUsers: this.getAllUsers,
             getAllChildren: this.getAllChildren
@@ -55,6 +56,13 @@ class ContextContainer extends React.Component {
         const data = await axios.get(`${host.HOST_API}/users`, this._getRequestConfig());
         const newUsers = _.get(data, 'data.users', []);
         this.setState({users: [ ...newUsers ]})
+    };
+
+    registerChild = fields => {
+        const onSuccess = () => console.log(fields);
+        const onError = error => console.log(error);
+        axios.post('http://192.168.1.96:3000/api/v1/child', fields)
+            .then( onSuccess, onError)
     };
 
     _getRequestConfig = () => ({headers: {

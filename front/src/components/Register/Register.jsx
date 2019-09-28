@@ -23,6 +23,34 @@ const roles = [
     }
 ];
 
+
+const cities = [
+    {
+        value: 'novosibirsk',
+        label: 'Новосибирск',
+    },
+    {
+        value: 'irkutsk',
+        label: 'Иркутск',
+    },
+    {
+        value: 'perm',
+        label: 'Пермь',
+    },
+    {
+        value: 'ufa',
+        label: 'Уфа',
+    },
+    {
+        value: 'tomsk',
+        label: 'Томск',
+    },
+    {
+        value: 'n_novgorod',
+        label: 'Нижний Новгород',
+    },
+];
+
 const isMarriedOptions = [
     {
         value: true,
@@ -195,12 +223,6 @@ function RegisterForm(props) {
                     fullWidth
                 />
                 <TextField
-                    value={values.city}
-                    onChange={handleChange('city')}
-                    placeholder={'Город'}
-                    fullWidth
-                />
-                <TextField
                     value={values.hobbies}
                     onChange={handleChange('hobbies')}
                     placeholder={'Хобби (через запятую)'}
@@ -208,14 +230,29 @@ function RegisterForm(props) {
                 />
                 <TextField
                     select
+                    label="Мой город"
+                    value={values.city}
+                    onChange={handleChange('city')}
+                    SelectProps={{
+                        native: true,
+                        MenuProps: {className: classes.menu,},
+                    }}
+                    fullWidth
+                >
+                    {cities.map(option => (
+                        <option key={option.value} value={option.value}>
+                            {option.label}
+                        </option>
+                    ))}
+                </TextField>
+                <TextField
+                    select
                     label="Мне интересна роль"
                     value={values.role}
                     onChange={handleChange('role')}
                     SelectProps={{
                         native: true,
-                        MenuProps: {
-                            className: classes.menu,
-                        },
+                        MenuProps: {className: classes.menu},
                     }}
                     fullWidth
                 >
@@ -232,9 +269,7 @@ function RegisterForm(props) {
                     onChange={handleChange('isMarried')}
                     SelectProps={{
                         native: true,
-                        MenuProps: {
-                            className: classes.menu,
-                        },
+                        MenuProps: {className: classes.menu},
                     }}
                     fullWidth
                 >
@@ -252,9 +287,7 @@ function RegisterForm(props) {
                     onChange={handleChange('sex')}
                     SelectProps={{
                         native: true,
-                        MenuProps: {
-                            className: classes.menu,
-                        },
+                        MenuProps: {className: classes.menu},
                     }}
                     fullWidth
                 >
@@ -276,22 +309,16 @@ function RegisterForm(props) {
 
                 <div className={classes.halfWidth}>
                     <Label
-                        control={
-                            <Checkbox checked={hasCar} onChange={handleChangeCheckbox('hasCar')} value="hasCar" />
-                        }
+                        control={<Checkbox checked={hasCar} onChange={handleChangeCheckbox('hasCar')} value="hasCar" />}
                         label="Есть машина"
                     />
                     <Label
-                        control={
-                            <Checkbox checked={hasChild} onChange={handleChangeCheckbox('hasChild')} value="hasChild" />
-                        }
+                        control={<Checkbox checked={hasChild} onChange={handleChangeCheckbox('hasChild')} value="hasChild" />}
                         label="Есть дети"
                     />
                 </div>
                 <Label
-                    control={
-                        <Checkbox checked={sendMailing} onChange={handleChangeCheckbox('sendMailing')} value="sendMailing" />
-                    }
+                    control={<Checkbox checked={sendMailing} onChange={handleChangeCheckbox('sendMailing')} value="sendMailing" />}
                     className={classes.fullwidth}
                     label="Получать уведомления по почте"
                 />

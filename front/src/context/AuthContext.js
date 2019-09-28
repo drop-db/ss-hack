@@ -39,6 +39,9 @@ export default class Container extends React.Component {
         this.setState({user: 'Admin'});
     };
 
+
+
+
     registerUser = fields => {
         const onSuccess = () => this.setState({checkEmailAfterRegistration: true});
         const onError = error => console.log(error);
@@ -73,7 +76,6 @@ export default class Container extends React.Component {
         const user = JSON.parse(localStorage.getItem('sunCityUser'));
         if (user) this.setState({user});
     }
-
 
     render() {
         //if (!this.state.triedLoginByToken) return null;
