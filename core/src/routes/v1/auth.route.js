@@ -14,5 +14,7 @@ router.post('/', validate(validations.login), asyncMiddleware(controller.login))
 
 router.delete('/', authorize(), asyncMiddleware(controller.logout));
 
+router.put('/', authorize(), asyncMiddleware(controller.refresh));
+
 
 module.exports = router;

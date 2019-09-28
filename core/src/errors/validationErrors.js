@@ -111,4 +111,60 @@ module.exports = {
         code: 127,
         message: 'invalid industry',
     },
+    about: {
+        code: 128,
+        message: 'invalid about',
+    },
+    hasCard: {
+        code: 129,
+        message: 'invalid has card',
+    },
+    isMarried: {
+        code: 130,
+        message: 'invalid is married',
+    },
+    birthday: {
+        code: 131,
+        message: 'invalid birthday',
+    },
+    livingArea: {
+        code: 132,
+        message: 'invalid living area',
+    },
+    city: {
+        code: 133,
+        message: 'invalid city',
+    },
+    profession: {
+        code: 134,
+        message: 'invalid profession',
+    },
+    isFullTime: {
+        code: 135,
+        message: 'invalid is full time',
+    },
+    post: {
+        code: 136,
+        message: 'invalid post',
+    },
+    hobbies: {
+        code: 137,
+        message: 'invalid hobbies',
+    },
+    hasCar: {
+        code: 138,
+        message: 'invalid has card',
+    },
+    education: {
+        code: 139,
+        message: 'invalid education',
+    },
+    sex: {
+        code: 140,
+        message: 'invalid sex',
+    },
+    house: {
+        code: 141,
+        message: 'invalid sex',
+    },
 };

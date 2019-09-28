@@ -8,11 +8,12 @@ const { authorize } = require('../../middlewares/auth');
 const router = express.Router();
 
 router.post(
-    '/', userSchemeValidations.createUser, userDataValidation.createUser,
+    '/', userSchemeValidations.createUser, userDataValidation.registerUser,
     controller.createUser,
 );
 
 router.get('/im', authorize(), controller.getIm);
 router.get('/', authorize([ADMIN]), userSchemeValidations.getList, controller.getList);
+router.patch('/:userId', authorize([ADMIN]), userDataValidation.patchUser, userSchemeValidations.patchUser, controller.patchUser);
 
 module.exports = router;
