@@ -25,4 +25,4 @@ yarn-error.log*
 
 .idea
 /core/.env
-/core/docker-compose.yml
+/docker-compose.yml

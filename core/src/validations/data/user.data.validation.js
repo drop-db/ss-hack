@@ -1,11 +1,7 @@
-const _ = require('lodash');
 const DataValidator = require('../../utils/dataValidator');
 const userErrors = require('../../errors/userErrors');
 
 const wrapAsyncMiddleware = require('../../middlewares/asyncMiddleware');
-const { RESET_PASS } = require('../../const/userTokens/TOKEN_TYPES');
-const { EDITOR } = require('../../const/users/USER_ROLES');
-const validationErrors = require('../../errors/validationErrors');
 
 
 async function registerUser(req, res, next) {
@@ -14,4 +10,12 @@ async function registerUser(req, res, next) {
     next();
 }
 
-exports.createUser = wrapAsyncMiddleware(registerUser);
+exports.registerUser = wrapAsyncMiddleware(registerUser);
+
+async function patchUser(req, res, next) {
+    const { userId } = req.oarams;
+    await DataValidator().validateUserNotFound({ _id: userId }, userErrors.userNotFound).validate();
+    next();
+}
+
+exports.patchUser = wrapAsyncMiddleware(patchUser);

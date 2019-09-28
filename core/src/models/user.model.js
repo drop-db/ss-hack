@@ -8,9 +8,11 @@ const USER_ROLES = require('../const/users/USER_ROLES');
 const USER_PROPS = require('../const/users/USER_PROPS');
 const USER_STATUS = require('../const/users/USER_STATUS');
 const TOKEN_TYPES = require('../const/userTokens/TOKEN_TYPES');
+const CITIES = require('../const/CITIES');
 
 const USER_ROLES_ARRAY = Object.values(USER_ROLES);
 const USER_STATUS_ARRAY = Object.values(USER_STATUS);
+const CITIES_ARRAY = Object.values(CITIES);
 
 const HASH_ROUNDS = 10;
 
@@ -50,6 +52,63 @@ const userSchema = new mongoose.Schema({
         trim: true,
         type: String,
         maxlength: USER_PROPS.LAST_NAME_MAX_LENGTH,
+    },
+    phone: {
+        type: String,
+        trim: true,
+    },
+    isMarried: {
+        type: Boolean,
+    },
+    sex: {
+        type: Boolean,
+    },
+    hasChild: {
+        type: Boolean,
+    },
+    birthday: {
+        type: Date,
+    },
+    livingArea: {
+        type: String,
+        trim: true,
+    },
+    city: {
+        type: String,
+        enum: CITIES_ARRAY,
+    },
+    sendMailing: {
+        type: Boolean,
+    },
+    profession: {
+        type: String,
+        trim: true,
+    },
+    isFullTime: {
+        type: Boolean,
+    },
+    post: {
+        type: String,
+        trim: true,
+    },
+    hobbies: [{
+        type: String,
+        trim: true,
+    }],
+    experience: {
+        type: String,
+        trim: true,
+    },
+    education: {
+        type: String,
+        trim: true,
+    },
+    about: {
+        type: String,
+        trim: true,
+    },
+    hasCar: {
+        type: Boolean,
     },
     role: {
         required: true,
@@ -111,6 +170,8 @@ userSchema.statics = {
     HASH_ROUNDS,
     USER_ROLES_ARRAY,
     USER_STATUS_ARRAY,
+    CITIES,
+    CITIES_ARRAY,
 };
 
 userSchema.plugin(mongoosePaginate);

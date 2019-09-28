@@ -1,6 +1,6 @@
 const DataValidationError = require('../APIErrors/DataValidationError');
-const tokenNotValid = require('./validators/tokenNotValid');
 const userFound = require('./validators/userFound');
+const userNotFound = require('./validators/userNotFound');
 
 class DataValidator {
     constructor() {
@@ -8,7 +8,11 @@ class DataValidator {
     }
 
     validateUserFound(where, error) {
-        return this.addValidator(userFound, { where, error });
+        return this.addValidator(userFound, {where, error});
+    }
+
+    validateUserNotFound(where, error) {
+        return this.addValidator(userNotFound, {where, error});
     }
 
 
@@ -21,7 +25,7 @@ class DataValidator {
     }
 
     addValidator(validator, data) {
-        this.validators.push({ validator, data });
+        this.validators.push({validator, data});
         return this;
     }
 }
