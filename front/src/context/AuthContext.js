@@ -1,6 +1,8 @@
 import React from 'react';
 import axios from 'axios';
-const AuthContext = React.createContext('auth');
+
+import host from '../const/host';
+
 
 const AUTH_STATUS = {
   NOT_TOUCHED: 0,
@@ -9,6 +11,8 @@ const AUTH_STATUS = {
   PROCESSING: 3,
   ERROR: 4
 };
+
+const AuthContext = React.createContext('auth');
 
 export default class Container extends React.Component {
     constructor(props) {
@@ -37,7 +41,7 @@ export default class Container extends React.Component {
     registerUser = fields => {
         const onSuccess = () => this.setState({checkEmailAfterRegistration: true});
         const onError = error => console.log(error);
-        axios.post('http://192.168.1.96:3000/api/v1/users', fields)
+        axios.post(`${host.HOST_API}/users`, fields)
             .then( onSuccess, onError)
     };
 
@@ -53,7 +57,7 @@ export default class Container extends React.Component {
             this.setState({user: response.data});
         };
         const onError = error => console.log(error);
-        axios.post('http://192.168.1.96:3000/api/v1/auth', {email, password})
+        axios.post(`${host.HOST_API}/auth`, {email, password})
             .then( onSuccess, onError)
     };
 

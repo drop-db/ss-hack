@@ -1,16 +1,21 @@
 import React from 'react';
 import { AuthContext } from "./AuthContext";
 import axios from "axios";
+import _ from 'lodash';
+
+import ROLES from '../const/roles';
+import host from '../const/host';
 
 const ContentContext = React.createContext('content');
 class ContextContainer extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            mentors: []
+            users: []
         };
         this.funcs = {
-            getAllMentors: this.getAllMentors
+            getUsersByRole: this.getUsersByRole,
+            getAllUsers: this.getAllUsers
         };
 
         window.cc = this;
@@ -20,14 +25,26 @@ class ContextContainer extends React.Component {
        //
     }
 
-    getAllMentors = () => {
-        const onSuccess = (data) => console.log(data);
-        const onError = error => console.log(error);
-        axios.get('http://192.168.1.96:3000/api/v1/users', {headers: {
-                Authorization: `Bearer ${JSON.parse(localStorage.getItem('sunCityUser')).accessToken}`
-        }})
-            .then(onSuccess, onError)
+    getUsersByRole = async (role = '') => {
+        const query = `?role=${role}`;
+
+        const data = await axios.get(`${host.HOST_API}/users${query}`, this._getRequestConfig());
+        const changedField = {
+            [role]: _.get(data, 'data.users', [])
+        };
+
+        this.setState({users: { ...this.state.users, ...changedField }})
     };
+
+    getAllUsers = async () => {
+        const data = await axios.get(`${host.HOST_API}/users`, this._getRequestConfig());
+        const newUsers = _.get(data, 'data.users', []);
+        this.setState({users: [ ...newUsers ]})
+    };
+
+    _getRequestConfig = () => ({headers: {
+            Authorization: `Bearer ${JSON.parse(localStorage.getItem('sunCityUser')).accessToken}`
+    }});
 
     render() {
         return (
