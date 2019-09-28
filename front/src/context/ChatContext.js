@@ -15,6 +15,7 @@ import {WEBRTC_TYPES} from '../const/webrtc_types';
 const {OFFER, ANSWER, CANDIDATE, WEBRTC} = WEBRTC_TYPES;
 const DEFAULT_STATE = {
     localStream: null,
+    remoteStream: null
 };
 const OFFER_OPTIONS = {
     offerToReceiveAudio: true,
@@ -43,8 +44,6 @@ class ChatContainer extends React.Component {
         this._iceCandidateListeners = {};
 
         window.ff = this;
-        navigator.getUserMedia = navigator.getUserMedia || navigator.mozGetUserMedia ||
-            navigator.webkitGetUserMedia || navigator.mediaDevices.getUserMedia;
         if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
             navigator.getUserMedia = (constrains, res, rej) => {
                 return navigator.mediaDevices.getUserMedia(constrains)
@@ -61,6 +60,7 @@ class ChatContainer extends React.Component {
 
     getStarted = async () => {
         this.socket = new SocketClient({events: this.eventHandlers, url: host.HOST});
+        window.socketHACKATON = this.socket;
     };
 
     send = async (event, data) => {
@@ -90,7 +90,7 @@ class ChatContainer extends React.Component {
     startCall = async (toUserId) => {
         const { authValue } = this.props;
 
-        const peer = await this._createPeerConnection();
+        const peer = await this._createPeerConnection(toUserId);
         this._addPeerConnection(peer, toUserId);
         const offer = await peer.createOffer(OFFER_OPTIONS);
         await peer.setLocalDescription(offer);
@@ -105,7 +105,7 @@ class ChatContainer extends React.Component {
         return await answerPromise;
     };
 
-    _createPeerConnection = async () => {
+    _createPeerConnection = async (toUserId) => {
         const { localStream } = this.state;
         const peerConnection = new window.RTCPeerConnection({
             iceServers: ICE_SERVERS,
@@ -113,7 +113,8 @@ class ChatContainer extends React.Component {
         });
         peerConnection.oniceconnectionstatechange = () => {
             if (peerConnection.iceConnectionState === 'connected') {
-                console.log('peer connected!');
+                const remoteStream = this._peerConnections[toUserId].getRemoteStreams()[0];
+                this.setState({ remoteStream });
                 peerConnection.oniceconnectionstatechange = null;
             }
         };
@@ -122,7 +123,8 @@ class ChatContainer extends React.Component {
         }
         if (this._promiseRequestCamera) await this._promiseRequestCamera;
 
-        if (localStream) peerConnection.addStream(localStream);
+        const recentLocalStream = localStream || this.state.localStream;
+        if (recentLocalStream) peerConnection.addStream(recentLocalStream);
         return peerConnection;
     };
 
@@ -290,7 +292,7 @@ class ChatContainer extends React.Component {
         //     return;
         // }
 
-        const peer = await this._createPeerConnection();
+        const peer = await this._createPeerConnection(toUserId);
         this._addPeerConnection(peer, toUserId);
         await peer.setRemoteDescription(offer);
 
