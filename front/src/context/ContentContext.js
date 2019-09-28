@@ -16,14 +16,23 @@ class ContextContainer extends React.Component {
             registerChild: this.registerChild,
             getUsersByRole: this.getUsersByRole,
             getAllUsers: this.getAllUsers,
-            getAllChildren: this.getAllChildren
+            getAllChildren: this.getAllChildren,
+            fetchInit: this.fetchInit
         };
 
         window.cc = this;
     }
 
     componentWillReceiveProps(nextProps) {
-       //
+        //
+    }
+
+    fetchInit = async (user) => {
+        await this.getAllUsers();
+        const availableChats = await window.socketHACKATON.send('messages:chats', {userId: user.id});
+        console.log('fetched! ', availableChats);
+        // todo attach user and chats in context
+
     }
 
     getAllChildren = () => {
@@ -59,7 +68,7 @@ class ContextContainer extends React.Component {
     registerChild = fields => {
         const onSuccess = () => console.log(fields);
         const onError = error => console.log(error);
-        axios.post('http://192.168.1.96:3000/api/v1/child', fields, this._getRequestConfig())
+        axios.post(`${host.HOST_API}/child`, fields, this._getRequestConfig())
             .then( onSuccess, onError)
     };
 

@@ -1,8 +1,9 @@
 import React, {useContext, useRef, useEffect} from 'react';
+import {withRouter} from 'react-router';
 import {ChatContext} from "../../context/ChatContext";
 import Button from "../../components/common/Button/Button";
 
-export default function(props) {
+function ChatPage(props) {
     const { localStream, remoteStream, startCall } = useContext(ChatContext);
     const localVideoRef = useRef(null);
     const remoteVideoRef = useRef(null);
@@ -37,3 +38,5 @@ export default function(props) {
         </div>
     );
 }
+
+export default withRouter(ChatPage);
