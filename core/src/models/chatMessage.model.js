@@ -38,7 +38,7 @@ chatMessageSchema.pre('save', async function save(next) {
 
 chatMessageSchema.methods.toDto = function toDto() {
     const sender = toDtoIfHas(this.sender);
-    const chat = toDtoIfHas(this.chat);
+    const chat = this.chat && this.chat._id ? this.chat._id : this.chat;
     return {
         id: this._id,
         message: this.name,
