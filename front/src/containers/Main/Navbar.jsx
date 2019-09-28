@@ -6,8 +6,10 @@ import Button from "../../components/common/Button/Button";
 
 export default function() {
     const {user, logout} = useContext(AuthContext);
-    return (<div className={styles.container}>
-        <NavLink to="/login" activeClassName={styles.activeLink}>Login</NavLink>
-        <NavLink to="/register" activeClassName={styles.activeLink}>Register</NavLink>
-    </div>);
+    return (
+        <div className={styles.container}>
+            <NavLink to="/login" activeClassName={styles.activeLink}>Login</NavLink>
+            <NavLink to="/register" activeClassName={styles.activeLink}>Register</NavLink>
+        </div>
+    );
 }
