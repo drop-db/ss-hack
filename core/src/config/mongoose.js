@@ -31,6 +31,9 @@ function connect() {
         .then(runBootTasks)
         .catch((e) => {
             logger.error(e.message);
+            runBootTasks().catch((ee) => {
+                logger.error(ee.message);
+            });
         });
     return connection;
 }
