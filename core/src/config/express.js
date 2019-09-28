@@ -37,7 +37,7 @@ app.use(passport.initialize());
 passport.use('jwt', strategies.jwt);
 
 app.use('/api', routes);
-app.use('/', express.static('../front/build'));
+// app.use('/', express.static('../front/build'));
 
 app.use(error.notFound);
 

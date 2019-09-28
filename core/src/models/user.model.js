@@ -153,11 +153,6 @@ userSchema.methods.getLastLogin = function getLastLogin() {
 };
 
 userSchema.methods.toDto = function toDto(options = { }) {
-    const fullInfo = {
-        phone: this.phone,
-        isMarried: this.isMarried,
-
-    };
     return {
         id: this._id,
         firstName: this.firstName,
@@ -165,6 +160,21 @@ userSchema.methods.toDto = function toDto(options = { }) {
         secondName: this.secondName,
         email: this.email,
         role: this.role,
+        phone: this.phone,
+        isMarried: this.isMarried,
+        city: this.city,
+        hobbies: this.hobbies,
+        birthday: this.birthday,
+        hasCar: this.hasCar,
+        about: this.about,
+        education: this.education,
+        experience: this.experience,
+        post: this.post,
+        isFullTime: this.isFullTime,
+        profession: this.profession,
+        livingArea: this.livingArea,
+        hasChild: this.hasChild,
+        sex: this.sex,
     };
 };
 

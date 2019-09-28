@@ -1,10 +1,12 @@
 const { createNewMessageWT } = require('../services/messages/createNewMessage');
 const { findOrCreateChatWT } = require('../services/messages/findOrCreateRoom');
+const { getUserChats } = require('../services/messages/getUserChats');
 const joinIfActive = require('../utils/joinIfActive');
 const emitInRoom = require('../utils/emitInRoomIfActive');
 
 const NEW_MESSAGE = 'messages:new';
-const NEW_ROOM = 'messages:room`';
+const NEW_ROOM = 'messages:room';
+const GET_CHATS = 'messages:chats';
 
 module.exports = function setMessageMessages(socket) {
     socket.on(NEW_MESSAGE, async (messageData) => {
@@ -20,6 +22,12 @@ module.exports = function setMessageMessages(socket) {
         socket.join(chatId);
         joinIfActive(chatId);
         ack({ chatId });
+    });
+
+    socket.on(GET_CHATS, async (getChatsData, ack) => {
+        const chats = await getUserChats(socket.userId);
+        if (!chats) return;
+        ack({ chats });
     });
 };
 

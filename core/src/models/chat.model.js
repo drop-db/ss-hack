@@ -34,10 +34,12 @@ const chatSchema = new mongoose.Schema({
 
 chatSchema.methods.toDto = function toDto() {
     const users = toDtoIfHas(this.users);
+    const messages = toDtoIfHas(this.messages);
     return {
         id: this._id,
         name: this.name,
         users,
+        messages,
     };
 };
 
