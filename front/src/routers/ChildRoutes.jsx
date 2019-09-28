@@ -1,13 +1,12 @@
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
 
-import ProfilePage from "../containers/Pages/ProfilePage";
-import ChatPage from "../containers/Pages/ChatPage";
+import HomePage from '../containers/Pages/HomePage/HomePage';
 
 export default function BaseUserRoutes() {
     return [
-        <Route exact path="/profile" component={ProfilePage} />,
-        <Route exact path="/chat" component={ChatPage} />,
-        <Redirect to="/profile" />
+        <Route path="/home" component={HomePage} />,
+        <Redirect to="/home" />
     ];
 }
+
