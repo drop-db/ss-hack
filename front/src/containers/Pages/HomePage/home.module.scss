@@ -1,8 +1,10 @@
+@import '../../../assets/style/variables';
 
 .mainContainer {
+  background-color: $background-color;
   position: fixed;
-  left: 300px;
+  left: 400px;
   top: 0;
   height: 100vh;
-  width: calc(100vw - 300px);
+  width: calc(100vw - 400px);
 }

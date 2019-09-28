@@ -3,21 +3,23 @@
   position: fixed;
   top: 0;
   left: 0;
-  width: 600px;
+  width: 400px;
   height: 100vh;
-
+  &>:first-child{
+      button {
+        max-width: 115px !important;
+      }
+  }
   padding: 1.5rem .75rem;
-
-  background: beige;
   &.hidden{
     width: 0;
   }
   .tab{
-    width: 50px;
+    width: 115px;
   }
 
   .sideContent{
-    width:100%;
+    width: 100%;
     min-height: 20rem;
   }
 }
