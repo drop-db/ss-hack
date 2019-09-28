@@ -1,8 +1,9 @@
 import React, {useContext, useRef, useEffect} from 'react';
 import {ChatContext} from "../../context/ChatContext";
+import Button from "../../components/common/Button/Button";
 
 export default function(props) {
-    const { localStream } = useContext(ChatContext);
+    const { localStream, startCall } = useContext(ChatContext);
     const videoRef = useRef(null);
 
     useEffect(() => {
@@ -12,9 +13,12 @@ export default function(props) {
     return (
         <div>
             <h2>Chat room</h2>
+            <Button onClick={startCall}>
+                Start call
+            </Button>
             <video
                 ref={videoRef}
-                playsinline
+                playsInline
                 autoPlay
                 border="5"
             />
