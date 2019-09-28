@@ -24,7 +24,7 @@ function SideBar(props) {
 
     return (
         <div className={classnames(styles.sideBar)}>
-            <Tabs value={props.history.location.pathname} onChange={handleChange}>
+            <Tabs value={props.history.location.pathname === '/home' ? '/home/chats' : props.history.location.pathname} onChange={handleChange}>
                 <Tab classes={styles.tab} index={0} value={'/home/chats'} label={'Chats'}/>
                 <Tab classes={styles.tab} index={1} value={'/home/users'} label={'Users'}/>
                 <Tab classes={styles.tab} index={2} value={'/home/requests'} label={'Requests'}/>
