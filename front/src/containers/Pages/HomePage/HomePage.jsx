@@ -23,11 +23,10 @@ function HomePage() {
             <SideBar />
             <div className={styles.mainContainer}>
                 <Route exact path="/home/profile" component={ProfilePage} />
-                <Route exact path="/home/chat" component={ChatPage} />
+                <Route exact path="/home/chats" component={ChatPage} />
                 {isAdmin && (
                     <React.Fragment>
-                        <Route exact path={[ "/home/requests", "/home/mentors", "/home/psyhologists", '/home/curators' ]} component={UsersList} />
-                        <Route exact path="/home/children" component={ChildrenList} />
+                        <Route exact path={[ "/home/requests", '/home/users' ]} component={UsersList} />
                     </React.Fragment>
                 )}
                 <Redirect to='/home/profile'/>
