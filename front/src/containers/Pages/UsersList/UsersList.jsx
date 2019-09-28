@@ -7,14 +7,15 @@ import ROLES from "../../../const/roles";
 
 import styles from './UsersList.modules.scss';
 import {NavLink} from "react-router-dom";
+import Button from "../../../components/common/Button/Button";
 
 const {List, ListItem} = ListComponents;
 
+const eventCreateRoom = 'messages:room'; // userId
+
 function UsersList(props) {
-    const {getAllUsers, users} = useContext(ContentContext);
-    useEffect(() => {
-        getAllUsers();
-    }, []);
+    const {users} = useContext(ContentContext);
+
     let roles = [];
     const path = props.location.pathname;
     const targetUserId = path.match(/\/home\/users\/(.*)/);
@@ -26,7 +27,28 @@ function UsersList(props) {
         roles = [ ROLES.CONFIRMED_MENTOR, ROLES.CONFIRMED_PSYCHOLOGIST, ROLES.CONFIRMED_CURATOR, ROLES.ADMIN];
     }
 
+    const handleContact = async function (userId) {
+        const { chatId } = await window.socketHACKATON.send(eventCreateRoom, { userId });
+
+        props.history.push(`/home/chats/${chatId}`);
+    };
+
+    const renderList = () => {
+        return users.map(user => {
+            if (!roles.some((role) => role === user.role)) return null;
+            return (
+                <>
+                    <ListItem key={`${user.firstName}`}>
+                        <NavLink to={`/home/users/${user.id}`}>{user.firstName + ' ' + user.role}</NavLink>
+                        <Button onClick={handleContact.bind(this, user.id)}>Связаться</Button>
+                    </ListItem>
+                </>
+            )
+        })
+    };
+
     const renderedList = renderList(users, roles);
+
 
     return <List
         className={styles.listContainer}
@@ -39,18 +61,6 @@ function UsersList(props) {
     </List>
 }
 
-function renderList(users, rolesToRender) {
-    return users.map(user => {
-        if (!rolesToRender.some((role) => role === user.role)) return null;
-        return (
-            <>
-                <ListItem key={`${user.firstName}`}>
-                    <NavLink to={`/home/users/${user.id}`}>{user.firstName + ' ' + user.role}</NavLink>
-                </ListItem>
-            </>
-        )
-    })
-}
 
 const UserPage = ({userId, users}) => {
     const user = users.filter(target => target.id === userId)[0];
@@ -60,5 +70,5 @@ const UserPage = ({userId, users}) => {
         <p>Last Name : {user.lastName}</p>
     </div>;
 };
-
 export default withRouter(UsersList);
+//

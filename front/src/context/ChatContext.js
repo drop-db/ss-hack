@@ -96,7 +96,7 @@ class ChatContainer extends React.Component {
         await peer.setLocalDescription(offer);
         offer.sdp = setMediaBitrate(offer.sdp);
 
-        const userId = authValue && authValue.user && authValue.user.id || 'TEST_VALUE';
+        const userId = authValue && authValue.user && authValue.user.id;
         const dataToSend = buildDataForEstablishWebRTC(userId, toUserId, OFFER, offer.sdp);
         this._sendWebRTCMessage(dataToSend);
 
@@ -300,7 +300,7 @@ class ChatContainer extends React.Component {
         await peer.setLocalDescription(answer);
         answer.sdp = setMediaBitrate(answer.sdp);
 
-        const userId = authValue && authValue.user && authValue.user.id || 'TEST_VALUE';
+        const userId = authValue && authValue.user && authValue.user.id;
         this._ensureIceCandidateExchange(userId, peer, toUserId, Promise.resolve());
 
         this._sendWebRTCMessage(
