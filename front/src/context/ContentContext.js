@@ -1,14 +1,17 @@
 import React from 'react';
 import { AuthContext } from "./AuthContext";
+import axios from "axios";
 
 const ContentContext = React.createContext('content');
 class ContextContainer extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-           someContent: 'ᕦ(ò_óˇ)ᕤ'
+            mentors: []
         };
-        this.funcs = {};
+        this.funcs = {
+            getAllMentors: this.getAllMentors
+        };
 
         window.cc = this;
     }
@@ -16,6 +19,15 @@ class ContextContainer extends React.Component {
     componentWillReceiveProps(nextProps) {
        //
     }
+
+    getAllMentors = () => {
+        const onSuccess = (data) => console.log(data);
+        const onError = error => console.log(error);
+        axios.get('http://192.168.1.96:3000/api/v1/users', {headers: {
+                Authorization: `Bearer ${JSON.parse(localStorage.getItem('sunCityUser')).accessToken}`
+        }})
+            .then(onSuccess, onError)
+    };
 
     render() {
         return (
