@@ -11,6 +11,10 @@ const chatMessageSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
     },
+    read: {
+        type: Boolean,
+        default: false,
+    },
     chat: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Chat',
@@ -32,12 +36,13 @@ chatMessageSchema.pre('save', async function save(next) {
     }
 });
 
-chatMessageSchema.methods.toDto = function toDto({chatId}) {
+chatMessageSchema.methods.toDto = function toDto({ chatId }) {
     const sender = toDtoIfHas(this.sender);
     const chat = toDtoIfHas(this.chat);
     return {
         id: this._id,
         message: this.name,
+        read: this.read,
         sender,
         chat,
     };
