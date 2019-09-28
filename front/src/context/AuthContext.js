@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import axios from 'axios';
 
 import host from '../const/host';
@@ -62,6 +62,8 @@ export default class Container extends React.Component {
     };
 
     logout = () => {
+        if (window.socketHACKATON) window.socketHACKATON.disconnect();
+
         localStorage.removeItem('sunCityUser');
         this.setState({user: null});
     };
