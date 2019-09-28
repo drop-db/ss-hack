@@ -152,7 +152,12 @@ userSchema.methods.getLastLogin = function getLastLogin() {
     return refreshTokens[0];
 };
 
-userSchema.methods.toDto = function toDto(options = {}) {
+userSchema.methods.toDto = function toDto(options = { }) {
+    const fullInfo = {
+        phone: this.phone,
+        isMarried: this.isMarried,
+
+    };
     return {
         id: this._id,
         firstName: this.firstName,
