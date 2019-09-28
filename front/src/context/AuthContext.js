@@ -20,6 +20,7 @@ export default class Container extends React.Component {
             checkEmailAfterRegistration: false
         };
         this.funcs = {
+            updateUser: newValues=>console.log('update user: ', newValues),
             authorizeByToken: this.authorizeByToken,
             authorizeByEmail: this.authorizeByEmail,
             logout: this.logout,

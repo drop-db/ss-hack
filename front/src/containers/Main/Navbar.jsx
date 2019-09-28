@@ -8,6 +8,7 @@ export default function() {
     const {user, logout} = useContext(AuthContext);
     return (<div className={styles.container}>
         <NavLink to="/profile" activeClassName={styles.activeLink}>Profile</NavLink>
+        <NavLink to="/chat" activeClassName={styles.activeLink}>Chat</NavLink>
         <NavLink to="/login" activeClassName={styles.activeLink}>Login</NavLink>
         <NavLink to="/register" activeClassName={styles.activeLink}>Register</NavLink>
         <Button onClick={logout}>Logout</Button>
