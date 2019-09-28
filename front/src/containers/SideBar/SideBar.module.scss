@@ -1,15 +1,27 @@
 .sideBar {
   box-sizing: border-box;
-
   position: fixed;
   top: 0;
   left: 0;
-  width: 300px;
+  width: 600px;
   height: 100vh;
 
   padding: 1.5rem .75rem;
-  display: flex;
-  flex-direction: column;
 
   background: beige;
+  &.hidden{
+    width: 0;
+  }
+  .tab{
+    width: 50px;
+  }
+
+  .sideContent{
+    width:100%;
+    min-height: 20rem;
+  }
+}
+
+.filterContainer{
+  padding: 1rem;
 }

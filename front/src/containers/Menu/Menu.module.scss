@@ -1,0 +1,50 @@
+.sideBar {
+  box-sizing: border-box;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 600px;
+  height: 100vh;
+
+  padding: 1.5rem .75rem;
+  display: flex;
+  flex-direction: column;
+
+  background: white;
+  &.hidden{
+    width: 0;
+  }
+  .tab{
+    width: 50px;
+  }
+
+  .sideContent{
+    width: 100%;
+    height: 100%;
+    min-height: 20rem;
+  }
+}
+.menuContainer{
+  .navLink{
+    color: black;
+    text-decoration: none;
+  }
+
+  .navLinks{
+    display: flex;
+    flex-direction: column;
+  }
+
+  .filterContainer{
+    padding: 1rem;
+  }
+
+  .privateChatsBlock{
+    display: flex;
+    flex-direction: column;
+    * > {
+      text-align: start;
+    }
+  }
+}

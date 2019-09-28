@@ -2,8 +2,6 @@ import React from 'react';
 import { AuthContext } from "./AuthContext";
 import axios from "axios";
 import _ from 'lodash';
-
-import ROLES from '../const/roles';
 import host from '../const/host';
 
 const ContentContext = React.createContext('content');
@@ -61,7 +59,7 @@ class ContextContainer extends React.Component {
     registerChild = fields => {
         const onSuccess = () => console.log(fields);
         const onError = error => console.log(error);
-        axios.post('http://192.168.1.96:3000/api/v1/child', fields)
+        axios.post('http://192.168.1.96:3000/api/v1/child', fields, this._getRequestConfig())
             .then( onSuccess, onError)
     };
 

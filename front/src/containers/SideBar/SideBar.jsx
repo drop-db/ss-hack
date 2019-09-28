@@ -1,30 +1,40 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState, } from 'react';
+import {withRouter} from 'react-router';
+import classnames from 'classnames';
 import {AuthContext} from "../../context/AuthContext";
-
 import styles from './SideBar.module.scss';
-import {NavLink} from "react-router-dom";
+import TABS from '../../components/common/Tab/Tab';
+import ROLES from '../../const/roles';
+import ChatsSideBar from "./ChatsSideBar";
+import FiltersSideBar from "./FiltersSideBar";
 import Button from "../../components/common/Button/Button";
 
-import ROLES from '../../const/roles';
+const { Tab, Tabs } = TABS;
 
-export default function(props) {
+function SideBar(props) {
     const {user, logout} = useContext(AuthContext);
-
     const isAdmin = user.role === ROLES.ADMIN;
+    const handleChange = (event, newValue) => {
+        props.history.push(newValue);
+    };
+    const currentPath = props.history.location.pathname;
+    const menuContent = currentPath === '/home/chats'
+        ? <ChatsSideBar/>
+        : <FiltersSideBar/>;
+
     return (
-        <div className={styles.sideBar}>
-            <NavLink to="/home/profile" activeClassName={styles.activeLink}>Профиль</NavLink>
-            <NavLink to="/home/chat" activeClassName={styles.activeLink}>Чаты</NavLink>
-            {isAdmin && (
-                <React.Fragment>
-                    <NavLink to='/home/requests' activeClassName={styles.activeLink}>Заявки на регистрацию</NavLink>
-                    <NavLink to='/home/mentors' activeClassName={styles.activeLink}>Менторы</NavLink>
-                    <NavLink to='/home/curators' activeClassName={styles.activeLink}>Кураторы</NavLink>
-                    <NavLink to='/home/psyhologists' activeClassName={styles.activeLink}>Психологи</NavLink>
-                    <NavLink to='/home/children' activeClassName={styles.activeLink}>Дети</NavLink>
-                </React.Fragment>
-            )}
+        <div className={classnames(styles.sideBar)}>
+            <Tabs value={props.history.location.pathname} onChange={handleChange}>
+                <Tab classes={styles.tab} index={0} value={'/home/chats'} label={'Chats'}/>
+                <Tab classes={styles.tab} index={1} value={'/home/users'} label={'Users'}/>
+                <Tab classes={styles.tab} index={2} value={'/home/requests'} label={'Requests'}/>
+            </Tabs>
+            <div className={styles.sideContent}>
+                {menuContent}
+            </div>
             <Button onClick={logout}>Logout</Button>
         </div>
     );
 }
+
+export default withRouter(SideBar);
