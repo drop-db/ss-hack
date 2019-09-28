@@ -1,11 +1,24 @@
 const mongoose = require('mongoose');
 const toDtoIfHas = require('../utils/toDtoIfHas');
+const CITIES = require('../const/CITIES');
 
-const { getTime: moment } = require('../utils/time');
+const CITIES_ARRAY = Object.values(CITIES);
 
 const chatSchema = new mongoose.Schema({
     name: {
         type: String,
+    },
+    city: {
+        type: String,
+        enum: CITIES_ARRAY,
+    },
+    firstUser: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+    },
+    secondUser: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
     },
     users: [{
         type: mongoose.Schema.Types.ObjectId,
