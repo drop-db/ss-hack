@@ -61,6 +61,10 @@ const userSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'UserToken',
     }],
+    chats: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Chat',
+    }],
 }, {
     versionKey: false,
     timestamps: true,
