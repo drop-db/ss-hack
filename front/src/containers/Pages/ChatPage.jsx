@@ -3,12 +3,16 @@ import {ChatContext} from "../../context/ChatContext";
 import Button from "../../components/common/Button/Button";
 
 export default function(props) {
-    const { localStream, startCall } = useContext(ChatContext);
-    const videoRef = useRef(null);
+    const { localStream, remoteStream, startCall } = useContext(ChatContext);
+    const localVideoRef = useRef(null);
+    const remoteVideoRef = useRef(null);
 
     useEffect(() => {
-        videoRef.current.srcObject = localStream;
+        localVideoRef.current.srcObject = localStream;
     }, [ localStream ]);
+    useEffect(() => {
+        remoteVideoRef.current.srcObject = localStream;
+    }, [ remoteStream ]);
 
     return (
         <div>
@@ -17,7 +21,13 @@ export default function(props) {
                 Start call
             </Button>
             <video
-                ref={videoRef}
+                ref={localVideoRef}
+                playsInline
+                autoPlay
+                border="5"
+            />
+            <video
+                ref={remoteVideoRef}
                 playsInline
                 autoPlay
                 border="5"
