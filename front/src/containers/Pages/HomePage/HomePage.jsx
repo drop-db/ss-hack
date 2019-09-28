@@ -6,7 +6,7 @@ import SideBar from "../../SideBar/SideBar";
 import styles from './home.module.scss';
 import ProfilePage from "../ProfilePage";
 import ChatPage from "../ChatPage";
-import MentorsList from '../MentorsList/MentorsList';
+import UsersList from '../UsersList/UsersList';
 import RegistrationRequests from '../RegistrationRequests/RegistrationRequests';
 import ChildrenList from '../ChildrenList/ChildrenList';
 
@@ -26,10 +26,8 @@ function HomePage() {
                 <Route exact path="/home/chat" component={ChatPage} />
                 {isAdmin && (
                     <React.Fragment>
-                        <Route exact path="/home/requests" component={RegistrationRequests} />
+                        <Route exact path={[ "/home/requests", "/home/mentors", "/home/psyhologists", '/home/curators' ]} component={UsersList} />
                         <Route exact path="/home/children" component={ChildrenList} />
-                        <Route exact path="/home/mentors" component={MentorsList} />
-                        <Route exact path="/home/psyhologists" component={PsychologistsList} />
                     </React.Fragment>
                 )}
                 <Redirect to='/home/profile'/>

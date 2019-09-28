@@ -6,6 +6,7 @@ import SocketClient from "../modules/SocketClient";
 import { AuthContext } from "./AuthContext";
 
 import ICE_SERVERS from '../const/stunServers';
+import host from '../const/host';
 import {isFirefox, isMobile, isSafari} from "../helpers/browserDetector";
 import {CHROME_CONSTRAINS, FF_CONSTRAINS, MAC_FF_CONSTRAINS, SAFARI_CONSTRAINS} from "../const/constrains";
 
@@ -27,7 +28,8 @@ class ChatContainer extends React.Component {
         super(props);
         this.state = DEFAULT_STATE;
         this.funcs = {
-            sendMessage: this.sendMessage
+            sendMessage: this.sendMessage,
+            startCall: this.startCall
         };
 
         this.eventHandlers = [
@@ -58,8 +60,7 @@ class ChatContainer extends React.Component {
     }
 
     getStarted = async () => {
-        const url = 'http://192.168.1.96:3000/'; // http://95.213.37.7:4021/ - vk
-        this.socket = new SocketClient({events: this.eventHandlers, url});
+        this.socket = new SocketClient({events: this.eventHandlers, url: host.HOST});
     };
 
     send = async (event, data) => {
@@ -67,6 +68,7 @@ class ChatContainer extends React.Component {
     };
 
     _sendWebRTCMessage = async (data) => {
+        console.log(`sending...${data.toUserId}`);
         await this.send(WEBRTC, data);
     };
 
@@ -96,7 +98,7 @@ class ChatContainer extends React.Component {
 
         const userId = authValue && authValue.user && authValue.user.id || 'TEST_VALUE';
         const dataToSend = buildDataForEstablishWebRTC(userId, toUserId, OFFER, offer.sdp);
-        await this._sendWebRTCMessage(dataToSend);
+        this._sendWebRTCMessage(dataToSend);
 
         const answerPromise = this._waitRemoteAnswer(toUserId);
         this._ensureIceCandidateExchange(userId, peer, toUserId, answerPromise);
@@ -208,7 +210,7 @@ class ChatContainer extends React.Component {
         peerConnection.onicecandidate = (event) => {
             if (!event.candidate) return;
             promise.then(async () => {
-                await this._sendWebRTCMessage({
+                this._sendWebRTCMessage({
                     userId,
                     toUserId,
                     candidate: event.candidate,

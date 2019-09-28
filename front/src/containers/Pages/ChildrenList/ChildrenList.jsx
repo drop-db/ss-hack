@@ -9,7 +9,7 @@ function ChildrenList() {
     }, []);
     return <div>
         <h3>Children List</h3>
-        { children.map(child => <div>{ `${child.firstName} ${child.secondName} ${child.birthday.toISOString()} ${child.orphanage}`} </div>)}
+        { children.map(child => <div key={child.id}>{ `${child.firstName} ${child.secondName} ${child.birthday.toISOString()} ${child.orphanage}`} </div>)}
     </div>
 }
 

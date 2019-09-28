@@ -105,6 +105,7 @@ function RegisterForm(props) {
         hasCar: false,
         hasChild: false,
         education: '',
+        experience: '',
         role: 'mentor',
     });
     const { hasCar, hasChild, sendMailing } = checkboxes;
@@ -185,6 +186,12 @@ function RegisterForm(props) {
                     value={values.livingArea}
                     onChange={handleChange('livingArea')}
                     placeholder={'Район проживания'}
+                    fullWidth
+                />
+                <TextField
+                    value={values.experience}
+                    onChange={handleChange('experience')}
+                    placeholder={'Опыт работы с детьми'}
                     fullWidth
                 />
                 <TextField

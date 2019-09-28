@@ -18,7 +18,8 @@ export default function(props) {
             {isAdmin && (
                 <React.Fragment>
                     <NavLink to='/home/requests' activeClassName={styles.activeLink}>Заявки на регистрацию</NavLink>
-                    <NavLink to='/home/mentors' activeClassName={styles.activeLink}>Кураторы</NavLink>
+                    <NavLink to='/home/mentors' activeClassName={styles.activeLink}>Менторы</NavLink>
+                    <NavLink to='/home/curators' activeClassName={styles.activeLink}>Кураторы</NavLink>
                     <NavLink to='/home/psyhologists' activeClassName={styles.activeLink}>Психологи</NavLink>
                     <NavLink to='/home/children' activeClassName={styles.activeLink}>Дети</NavLink>
                 </React.Fragment>

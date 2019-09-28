@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import { Scrollbars } from "react-custom-scrollbars";
-
+import {Scrollbars} from 'react-custom-scrollbars';
 import styles from "./Scrollbar.module.scss";
 
 export default function Scrollbar(props) {
