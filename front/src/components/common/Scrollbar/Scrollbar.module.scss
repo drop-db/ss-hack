@@ -1,0 +1,38 @@
+@import "../../../assets/style/variables";
+
+.scrollbar {
+    &:first-child{
+        display: flex;
+        flex-direction: column;
+        padding: 1rem;
+        max-width: 720px;
+    }
+
+    box-sizing: border-box;
+    & > :nth-child(3){
+        display:none;
+    }
+    & > :nth-child(2){
+        display:none;
+    }
+    & > ::-webkit-scrollbar{
+        width:0;
+    }
+    & > {-ms-overflow-style: none;}
+    & > {overflow: -moz-scrollbars-none;}
+    &:not(.withoutZIndex) {
+        & > div {
+            z-index: 10;
+
+            &:not(:first-child) {
+                & > div {
+                    background-color: rgba($black, 0.25) !important;
+                }
+            }
+
+            &:first-child {
+                z-index: 5;
+            }
+        }
+    }
+}

@@ -20,6 +20,7 @@ export default function(props) {
                     <NavLink to='/home/requests' activeClassName={styles.activeLink}>Заявки на регистрацию</NavLink>
                     <NavLink to='/home/mentors' activeClassName={styles.activeLink}>Кураторы</NavLink>
                     <NavLink to='/home/psyhologists' activeClassName={styles.activeLink}>Психологи</NavLink>
+                    <NavLink to='/home/children' activeClassName={styles.activeLink}>Дети</NavLink>
                 </React.Fragment>
             )}
             <Button onClick={logout}>Logout</Button>

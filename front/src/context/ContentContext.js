@@ -7,10 +7,12 @@ class ContextContainer extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            mentors: []
+            mentors: [],
+            children: []
         };
         this.funcs = {
-            getAllMentors: this.getAllMentors
+            getAllMentors: this.getAllMentors,
+            getAllChildren: this.getAllChildren
         };
 
         window.cc = this;
@@ -19,6 +21,19 @@ class ContextContainer extends React.Component {
     componentWillReceiveProps(nextProps) {
        //
     }
+
+    getAllChildren = () => {
+        const onSuccess = (data) => console.log(data);
+        const onError = error => console.log(error);
+        this.setState({children: [
+            {firstName:'KidName1', secondName: 'KidSurname1', birthday: new Date(), orphanage: 'House#1'},
+                {firstName:'KidName2', secondName: 'KidSurname2', birthday: new Date(), orphanage: 'House#2'}
+            ]})
+        // axios.get(`http://192.168.1.96:3000/api/v1/users?role=`, {headers: {
+        //         Authorization: `Bearer ${JSON.parse(localStorage.getItem('sunCityUser')).accessToken}`
+        //     }})
+        //     .then(onSuccess, onError)
+    };
 
     getAllMentors = () => {
         const onSuccess = (data) => console.log(data);

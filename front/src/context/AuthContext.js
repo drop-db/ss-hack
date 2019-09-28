@@ -20,7 +20,7 @@ export default class Container extends React.Component {
             checkEmailAfterRegistration: false
         };
         this.funcs = {
-            updateUser: newValues=>console.log('update user: ', newValues),
+            updateUser: newValues => console.log('update user: ', newValues),
             authorizeByToken: this.authorizeByToken,
             authorizeByEmail: this.authorizeByEmail,
             logout: this.logout,
@@ -38,8 +38,11 @@ export default class Container extends React.Component {
     registerUser = fields => {
         const onSuccess = () => this.setState({checkEmailAfterRegistration: true});
         const onError = error => console.log(error);
-        axios.post('http://192.168.1.96:3000/api/v1/users', fields)
-            .then( onSuccess, onError)
+        const hobbies = fields.hobbies.split(',');
+        const result = {...fields, birthday: new Date(fields.birthday, hobbies)};
+        console.log(result)
+        // axios.post('http://192.168.1.96:3000/api/v1/users', fields)
+        //     .then( onSuccess, onError)
     };
 
     authorizeByEmail = async ({email, password}) => {

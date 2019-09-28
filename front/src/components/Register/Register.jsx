@@ -4,8 +4,11 @@ import Form from "../common/Form/Form";
 import TextField from "../common/TextField/TextField";
 import { makeStyles } from '@material-ui/core/styles';
 import {AuthContext} from "../../context/AuthContext";
+import Checkbox from "../common/Checkbox/Checkbox";
+import Label from "../common/Form/Label";
+import Scrollbar from "../common/Scrollbar/Scrollbar";
 
-const currencies = [
+const roles = [
     {
         value: 'curator',
         label: 'Куратора',
@@ -20,21 +23,48 @@ const currencies = [
     }
 ];
 
+const isMarriedOptions = [
+    {
+        value: true,
+        label: 'Женат(замужем)',
+    },
+    {
+        value: false,
+        label: 'Холост(а)',
+    },
+];
+
+const sexOptions = [
+    {
+        value: true,
+        label: 'Мужской'
+    },
+    {
+        value: false,
+        label: 'Женский'
+    }
+];
+
 const useStyles = makeStyles(theme => ({
     container: {
         display: 'flex',
         flexWrap: 'wrap',
     },
-    textField: {
-        marginLeft: theme.spacing(1),
-        marginRight: theme.spacing(1),
-        width: 200,
-    },
     dense: {
         marginTop: 19,
     },
-    menu: {
+    fullwidth: {
+        width: '100%',
+        display: 'flex',
+        flexDirection:'row',
+        justifyContent: 'center'
     },
+    halfWidth: {
+        width: '100%',
+        display: 'flex',
+        flexDirection:'row',
+        justifyContent: 'space-around'
+    }
 }));
 
 function RegisterForm(props) {
@@ -43,83 +73,225 @@ function RegisterForm(props) {
     const handleChange = name => event => {
         setValues({ ...values, [name]: event.target.value });
     };
+    const [checkboxes, setCheckboxes] = React.useState({
+        hasCar: false,
+        hasChild: false,
+        sendMailing: true
+    });
+
+    const handleChangeCheckbox = name => event => {
+        setCheckboxes({ ...checkboxes, [name]: event.target.checked });
+    };
+
     const [values, setValues] = useState({
         email: '',
         password: '',
         confirmPassword: '',
+        sex: true,
         firstName: '',
         lastName: '',
-        secondName: 'N',
-        age: '',
+        secondName: '',
+        phone:'',
+        isMarried: false,
+        birthday: '',
+        city: '',
+        livingArea: '',
+        sendMailing: true,
+        profession: '',
+        isFullTime: true,
+        post: '',
+        hobbies: '',
+        about: '',
+        hasCar: false,
+        hasChild: false,
         education: '',
-        extraInfo:'',
-        role: 'mentor'
+        role: 'mentor',
     });
+    const { hasCar, hasChild, sendMailing } = checkboxes;
 
     return (
         <Form>
-            <TextField
-                value={values.email}
-                onChange={handleChange('email')}
-                placeholder={'E-mail'}
-            />
-            <TextField
-                value={values.password}
-                onChange={handleChange('password')}
-                type='password'
-                placeholder={'Пароль'}
-            />
-            <TextField
-                value={values.confirmPassword}
-                onChange={handleChange('confirmPassword')}
-                type='password'
-                placeholder={'Подтвердите пароль'}
-            />
-            <TextField
-                value={values.firstName}
-                onChange={handleChange('firstName')}
-                placeholder={'Имя'}
-            />
-            <TextField
-                value={values.lastName}
-                onChange={handleChange('lastName')}
-                placeholder={'Фамилия'}
-            />
-            <TextField
-                type='number' placeholder={'Возраст'}/>
-            <TextField placeholder={'Образование'}/>
-            <TextField
-                label="О себе"
-                placeholder="Увлекаюсь кемпингом"
-                multiline
-                className={classes.extraInfo}
-                margin="normal"
-            />
-            <TextField
-                id="standard-select-currency-native"
-                select
-                label="Мне интересна роль"
-                className={classes.textField}
-                value={values.currency}
-                onChange={handleChange('role')}
-                SelectProps={{
-                    native: true,
-                    MenuProps: {
-                        className: classes.menu,
-                    },
-                }}
-                helperText="Выберете роль"
-                margin="normal"
-            >
-                {currencies.map(option => (
-                    <option key={option.value} value={option.value}>
-                        {option.label}
-                    </option>
-                ))}
-            </TextField>
-            <Button onClick={()=>registerUser(values)}>
-                Регистрация
-            </Button>
+            <Scrollbar autoHeight autoHeightMin='80vh' >
+                <TextField
+                    value={values.email}
+                    onChange={handleChange('email')}
+                    placeholder={'E-mail'}
+                    fullWidth
+                />
+                <TextField
+                    fullWidth
+                    value={values.password}
+                    onChange={handleChange('password')}
+                    type='password'
+                    placeholder={'Пароль'}
+                />
+                <TextField
+                    value={values.confirmPassword}
+                    onChange={handleChange('confirmPassword')}
+                    type='password'
+                    placeholder={'Подтвердите пароль'}
+                    fullWidth
+                />
+                <TextField
+                    value={values.firstName}
+                    onChange={handleChange('firstName')}
+                    placeholder={'Имя'}
+                    fullWidth
+                />
+                <TextField
+                    value={values.phone}
+                    onChange={handleChange('phone')}
+                    placeholder={'Телефон'}
+                    fullWidth
+                />
+                <TextField
+                    value={values.lastName}
+                    onChange={handleChange('lastName')}
+                    placeholder={'Фамилия'}
+                    fullWidth
+                />
+                <TextField
+                    value={values.secondName}
+                    onChange={handleChange('secondName')}
+                    placeholder={'Отчество'}
+                    fullWidth
+                />
+                <TextField
+                    type='date'
+                    placeholder={'День рождения'}
+                    onChange={handleChange('birthday')}
+                    value={values.birthday}
+                    fullWidth
+                />
+                <TextField
+                    value={values.education}
+                    onChange={handleChange('education')}
+                    placeholder={'Образование'}
+                    fullWidth
+                />
+                <TextField
+                    value={values.profession}
+                    onChange={handleChange('profession')}
+                    placeholder={'Профессия'}
+                    fullWidth
+                />
+                <TextField
+                    value={values.post}
+                    onChange={handleChange('post')}
+                    placeholder={'Должность'}
+                    fullWidth
+                />
+                <TextField
+                    value={values.livingArea}
+                    onChange={handleChange('livingArea')}
+                    placeholder={'Район проживания'}
+                    fullWidth
+                />
+                <TextField
+                    value={values.city}
+                    onChange={handleChange('city')}
+                    placeholder={'Город'}
+                    fullWidth
+                />
+                <TextField
+                    value={values.hobbies}
+                    onChange={handleChange('hobbies')}
+                    placeholder={'Хобби (через запятую)'}
+                    fullWidth
+                />
+                <TextField
+                    select
+                    label="Мне интересна роль"
+                    value={values.role}
+                    onChange={handleChange('role')}
+                    SelectProps={{
+                        native: true,
+                        MenuProps: {
+                            className: classes.menu,
+                        },
+                    }}
+                    fullWidth
+                >
+                    {roles.map(option => (
+                        <option key={option.value} value={option.value}>
+                            {option.label}
+                        </option>
+                    ))}
+                </TextField>
+                <TextField
+                    select
+                    label="Семейное положение"
+                    value={values.isMarried}
+                    onChange={handleChange('isMarried')}
+                    SelectProps={{
+                        native: true,
+                        MenuProps: {
+                            className: classes.menu,
+                        },
+                    }}
+                    fullWidth
+                >
+                    {isMarriedOptions.map(option => (
+                        <option key={option.value} value={option.value}>
+                            {option.label}
+                        </option>
+                    ))}
+                    fullWidth
+                </TextField>
+                <TextField
+                    select
+                    label="Пол"
+                    value={values.sex}
+                    onChange={handleChange('sex')}
+                    SelectProps={{
+                        native: true,
+                        MenuProps: {
+                            className: classes.menu,
+                        },
+                    }}
+                    fullWidth
+                >
+                    {sexOptions.map(option => (
+                        <option key={option.value} value={option.value}>
+                            {option.label}
+                        </option>
+                    ))}
+                    fullWidth
+                </TextField>
+                <TextField
+                    label="О себе"
+                    placeholder="Расскажите немного о себе"
+                    multiline
+                    fullWidth
+                    value={values.about}
+                    onChange={handleChange('about')}
+                />
+
+                <div className={classes.halfWidth}>
+                    <Label
+                        control={
+                            <Checkbox checked={hasCar} onChange={handleChangeCheckbox('hasCar')} value="hasCar" />
+                        }
+                        label="Есть машина"
+                    />
+                    <Label
+                        control={
+                            <Checkbox checked={hasChild} onChange={handleChangeCheckbox('hasChild')} value="hasChild" />
+                        }
+                        label="Есть дети"
+                    />
+                </div>
+                <Label
+                    control={
+                        <Checkbox checked={sendMailing} onChange={handleChangeCheckbox('sendMailing')} value="sendMailing" />
+                    }
+                    className={classes.fullwidth}
+                    label="Получать уведомления по почте"
+                />
+                <Button onClick={() => registerUser({...values, ...checkboxes})}>
+                    Регистрация
+                </Button>
+            </Scrollbar>
         </Form>
     )
 }

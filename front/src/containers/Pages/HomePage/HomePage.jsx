@@ -8,6 +8,7 @@ import ProfilePage from "../ProfilePage";
 import ChatPage from "../ChatPage";
 import MentorsList from '../MentorsList/MentorsList';
 import RegistrationRequests from '../RegistrationRequests/RegistrationRequests';
+import ChildrenList from '../ChildrenList/ChildrenList';
 
 import {AuthContext} from "../../../context/AuthContext";
 import ROLES from "../../../const/roles";
@@ -26,6 +27,7 @@ function HomePage() {
                 {isAdmin && (
                     <React.Fragment>
                         <Route exact path="/home/requests" component={RegistrationRequests} />
+                        <Route exact path="/home/children" component={ChildrenList} />
                         <Route exact path="/home/mentors" component={MentorsList} />
                         <Route exact path="/home/psyhologists" component={PsychologistsList} />
                     </React.Fragment>
