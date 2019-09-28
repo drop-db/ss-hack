@@ -13,7 +13,7 @@ router.post(
 );
 
 router.get('/im', authorize(), controller.getIm);
-router.get('/', authorize([ADMIN]), userSchemeValidations.getList, controller.getList);
+router.get('/', authorize(), userSchemeValidations.getList, controller.getList);
 router.patch('/:userId', authorize([ADMIN]), userDataValidation.patchUser, userSchemeValidations.patchUser, controller.patchUser);
 
 module.exports = router;
