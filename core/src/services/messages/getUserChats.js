@@ -22,9 +22,9 @@ async function getUserChats(userId) {
                 },
             })
             .populate('users');
-        return chats.map(c => c.toDto());
+        return chats.map(c => c.toDto()).filter(c => c.messages.length && c.users.length);
     }
-    return user.chats.map(c => c.toDto());
+    return user.chats.map(c => c.toDto()).filter(c => c.messages.length);
 }
 
 exports.getUserChats = getUserChats;

@@ -12,6 +12,10 @@ const chatSchema = new mongoose.Schema({
         type: String,
         enum: CITIES_ARRAY,
     },
+    system: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+    },
     firstUser: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
