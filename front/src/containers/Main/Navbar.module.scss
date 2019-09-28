@@ -1,6 +1,12 @@
-.container {
+.navBar {
   display: flex;
   flex-direction: row;
   align-items: flex-start;
   justify-content: space-around;
+
+  .linksInfo {
+    flex: 1;
+    display: flex;
+    justify-content: flex-start;
+  }
 }
