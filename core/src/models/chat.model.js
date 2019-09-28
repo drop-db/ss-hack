@@ -38,6 +38,7 @@ chatSchema.methods.toDto = function toDto() {
     return {
         id: this._id,
         name: this.name,
+        city: this.city,
         users,
         messages,
     };
