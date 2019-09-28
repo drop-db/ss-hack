@@ -17,3 +17,12 @@ exports.createUser = validate({
     },
 });
 
+//  /v1/users/
+exports.getList = validate({
+    query: {
+        role: Joi.string().valid(USER_ROLES_NO_ADMIN),
+        page: Joi.number().integer().min(1),
+        perPage: Joi.number().integer().min(1),
+    },
+});
+
