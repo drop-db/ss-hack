@@ -13,9 +13,17 @@ async function registerUser(req, res, next) {
 exports.registerUser = wrapAsyncMiddleware(registerUser);
 
 async function patchUser(req, res, next) {
-    const { userId } = req.oarams;
+    const { userId } = req.params;
     await DataValidator().validateUserNotFound({ _id: userId }, userErrors.userNotFound).validate();
     next();
 }
 
 exports.patchUser = wrapAsyncMiddleware(patchUser);
+
+async function updateLastActivity(req, res, next) {
+    const { userId } = req.params;
+    await DataValidator().validateUserNotFound({ _id: userId }, userErrors.userNotFound).validate();
+    next();
+}
+
+exports.updateLastActivity = wrapAsyncMiddleware(updateLastActivity);

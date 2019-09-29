@@ -70,6 +70,7 @@ async function createUser(data, session) {
         hasCar,
         hasChild,
         sex,
+        lastActivity: new Date(),
         status: noEmailRegister ? User.USER_STATUS.ACTIVE : User.USER_STATUS.NOT_CONFIRMED,
     }], { session });
 
