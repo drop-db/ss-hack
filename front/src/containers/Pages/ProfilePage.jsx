@@ -152,7 +152,7 @@ export default function (props) {
                         />
                         <InputBase
                             className={styles.textField}
-                            value={userCity}
+                            value={values.city}
                             onChange={handleChange('city')}
                         />
                         <InputBase
