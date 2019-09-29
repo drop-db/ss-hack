@@ -7,7 +7,6 @@ import styles from './UsersList.module.scss';
 import {NavLink} from "react-router-dom";
 import Button from "../../../components/common/Button/Button";
 
-const {List, ListItem} = ListComponents;
 import Scrollbar from "../../../components/common/Scrollbar/Scrollbar";
 import {AuthContext} from "../../../context/AuthContext";
 
@@ -15,8 +14,9 @@ const eventCreateRoom = 'messages:room'; // userId
 
 function UsersList(props) {
     const {users} = useContext(ContentContext);
-    const filteredUsers = users.filter(target => target.id !== user.id);
     const {user} = useContext(AuthContext);
+
+    const filteredUsers = users.filter(target => target.id !== user.id);
 
     let roles = [];
     const path = props.location.pathname;
@@ -72,18 +72,9 @@ function UsersList(props) {
         </Scrollbar>
     };
 
-    const renderedList = renderList(users, roles, path == '/home/requests');
+    const renderedList = renderList(filteredUsers, roles, path == '/home/requests');
 
-
-    return <List
-        className={styles.listContainer}
-        component="div"
-    >
-
-        <NavLink  to={'/home/users/2'}>user2</NavLink>
-        <NavLink  to={'/home/users/3'}>user3</NavLink>
-        {renderedList}
-    </List>
+    return renderedList;
 }
 
 

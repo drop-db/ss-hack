@@ -15,7 +15,7 @@ function HomePage(props) {
 
     useEffect(() => {
         if (user) fetchInit(user)
-    }, [ user ]);
+    }, []);
 
 
 
