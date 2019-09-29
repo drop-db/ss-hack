@@ -48,7 +48,7 @@ export default function Menu(items1){
     const commonChats = groupedChats[undefined];
     Object.keys(groupedChats).forEach(k => {
         if(k === 'undefined') return;
-        console.log({k})
+
         const city = cities.find(c => c.value === k);
         const links = groupedChats[k].map(c => ({path: `/home/chats/${c.id}`, label: c.name}));
         commonItems.push({city: k, groupName: city.label, links});
