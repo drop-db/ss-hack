@@ -91,7 +91,7 @@ function ChatPage(props) {
     const userName = getUserName(findUserByChatId());
     const chat = getChat(getChatId());
 
-    const disableCalls = chat.users.length > 2;
+    const disableCalls = chat.users.length !== 2;
 
     const isUsersCalling = callingTo && localStream && remoteStream;
 
