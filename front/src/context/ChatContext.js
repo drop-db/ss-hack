@@ -129,7 +129,7 @@ class ChatContainer extends React.Component {
 
     destroyWebRTCConnection = (toUserId) => {
         const peer = this._peerConnections[toUserId];
-        if (peer.close) peer.close();
+        if (peer && peer.close) peer.close();
 
          delete this._peerConnections[toUserId];
     };
@@ -155,18 +155,17 @@ class ChatContainer extends React.Component {
                 peerConnection.oniceconnectionstatechange = null;
             }
         };
-        peerConnection.onconnectionstatechange = function() {
+        const func = this.onClosePeerConnection;
+        peerConnection.onconnectionstatechange = function () {
             switch(peerConnection.connectionState) {
                 case "connected":
                     // The connection has become fully connected
                     break;
                 case "disconnected":
                 case "failed":
-                    // One or more transports has terminated unexpectedly or in an error
-                    break;
                 case "closed":
                     // The connection has been closed
-                    this.onClosePeerConnection();
+                    func();
                     break;
             }
         }
@@ -182,6 +181,7 @@ class ChatContainer extends React.Component {
 
     onClosePeerConnection = () => {
         console.log('s toi storoni zakrili, nado i u menya', this.state);
+        this.dropCall();
     };
 
     _runVideo = (resolve) => {
@@ -333,7 +333,7 @@ class ChatContainer extends React.Component {
     //         userId - tot kto prisilaet offer
     //         sdp
     _handleRemoteOffer = async (data) => {
-        const { authValue } = this.props;
+        const { authValue, history } = this.props;
         const toUserId = data.userId;
 
         const offer = new window.RTCSessionDescription({
@@ -341,6 +341,7 @@ class ChatContainer extends React.Component {
             sdp: data.sdp,
         });
 
+        this.setState({ calling: true });
         // preventing incoming connection if we already send offer
         // const isAlreadyHasConnection = _.get(this._tableOfWaitingResults, toUserId, false);
         // const isLastConnection = this.attendees.indexOf(this.userLabel) < this.attendees.indexOf(toUserId);
