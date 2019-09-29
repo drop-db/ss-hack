@@ -2,28 +2,15 @@ import React,{useContext} from 'react';
 import {AuthContext} from "../../context/AuthContext";
 import NavBar from '../Main/Navbar';
 import Footer from '../Main/Footer';
-import styles from './landing.scss';
+import styles from './landing.module.scss';
+import Scrollbar from "../../components/common/Scrollbar/Scrollbar";
 export default function(props) {
     const {user} = useContext(AuthContext);
     return (
-        <div >
-            <NavBar />
-            <div className={styles.content}>
-                <div className={styles.block}>
-                    <img alt="img"/>
-                    <div className={styles.text}>textblock</div>
-                </div>
-                <div className={styles.block}>
-                    <div className={styles.block}>
-                        <img alt="img"/>
-                        <div className={styles.text}>textblock</div>
-                    </div>
-                </div>
-                <div className={styles.loginBlock}>
-                    ...
-                </div>
+        <Scrollbar autoHeight autoHeightMin={'100vh'}>
+            <div className={styles.container}>
+                <NavBar />
             </div>
-            <Footer />
-        </div>
+        </Scrollbar>
     );
 }
