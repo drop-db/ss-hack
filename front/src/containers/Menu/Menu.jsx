@@ -4,52 +4,54 @@ import Button from "../../components/common/Button/Button";
 import styles from "./Menu.module.scss";
 import {ContentContext} from "../../context/ContentContext";
 import {AuthContext} from "../../context/AuthContext";
+import _ from 'lodash';
+
+
+const cities = [
+    {
+        value: 'krasnoyarsk',
+        label: 'Красноярск',
+    },
+    {
+        value: 'novosibirsk',
+        label: 'Новосибирск',
+    },
+    {
+        value: 'irkutsk',
+        label: 'Иркутск',
+    },
+    {
+        value: 'perm',
+        label: 'Пермь',
+    },
+    {
+        value: 'ufa',
+        label: 'Уфа',
+    },
+    {
+        value: 'tomsk',
+        label: 'Томск',
+    },
+    {
+        value: 'n_novgorod',
+        label: 'Нижний Новгород',
+    },
+];
 
 export default function Menu(items1){
     const {chats, getUserName} = useContext(ContentContext);
     const {user} = useContext(AuthContext);
 
-    const commonItems = [
-        {
-            groupName: 'Новосибирск',
-            links: [
-                {
-                    label: 'Психологи',
-                    path: '/home/chats/novosibPsyc'
-                },
-                {
-                    label: 'Наставники',
-                    path: '/home/chats/novosibMent'
-                }
-            ]
-        },
-        {
-            groupName: 'Томск',
-            links: [
-                {
-                    label: 'Психологи2',
-                    path: '/home/chats/tomskPsyc'
-                },
-                {
-                    label: 'Наставники2',
-                    path: '/home/chats/tomskMent'
-                }
-            ]
-        },
-        {
-            groupName: 'Тверь',
-            links: [
-                {
-                    label: 'Психологи3',
-                    path: '/home/chats/tverPsyc'
-                },
-                {
-                    label: 'Наставники3',
-                    path: '/home/chats/tverMent'
-                }
-            ]
-        }
-    ];
+    const commonItems = [];
+    const groupedChats = _.groupBy(chats, c => c.city);
+    const commonChats = groupedChats[undefined];
+    Object.keys(groupedChats).forEach(k => {
+        if(k === 'undefined') return;
+        console.log({k})
+        const city = cities.find(c => c.value === k);
+        const links = groupedChats[k].map(c => ({path: `/home/chats/${c.id}`, label: c.name}));
+        commonItems.push({city: k, groupName: city.label, links});
+    });
 
 
 
@@ -61,7 +63,7 @@ export default function Menu(items1){
         return getUserName(remoteUser && remoteUser.id);
     };
 
-    const privateChats = chats.map((chat) => {
+    const privateChats = commonChats.map((chat) => {
         const userName = getUserNameByChatId(chat.id);
         if (userName === null) return null;
 
@@ -69,10 +71,7 @@ export default function Menu(items1){
     }).filter(chat => chat !== null);
 
 
-    const privateItems = [
-        {label: 'John', path: '/home/chats/1234567'},
-        {label: 'James', path: '/home/chats/234567'}
-    ];
+
     const [activeGroup, setActiveGroup] = useState(null);
     return (
         <div className={styles.menuContainer}>

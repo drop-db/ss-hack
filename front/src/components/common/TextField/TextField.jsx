@@ -1,8 +1,9 @@
 import React from 'react';
-import { TextField as MaterialTextField } from '@material-ui/core';
+import {TextField as MaterialTextField} from '@material-ui/core';
 
 function TextField(props) {
-    return <MaterialTextField {...props} />
+    const {maxLength, ...restProps} = props;
+    return <MaterialTextField {...restProps} inputProps={{maxLength}}/>
 }
 
 export default TextField;

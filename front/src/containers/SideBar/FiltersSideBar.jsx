@@ -1,14 +1,22 @@
-import React from 'react';
-import TextField from "../../components/common/TextField/TextField";
-import Button from "../../components/common/Button/Button";
+import React, {useContext, useState} from 'react';
 import styles from "./SideBar.module.scss";
+import {ContentContext} from "../../context/ContentContext";
+import ROLES from "../../const/roles";
 
-export default function FiltersSideBar(){
+
+export default function FiltersSideBar() {
+    const {users} = useContext(ContentContext);
+    const mentorsCount = users.filter(u => u.role === ROLES.CONFIRMED_MENTOR).length;
+    const psychologistCount = users.filter(u => u.role === ROLES.CONFIRMED_PSYCHOLOGIST).length;
+    const curatorsCount = users.filter(u => u.role === ROLES.CONFIRMED_CURATOR).length;
+    const requestsCount = users.filter(u => [ROLES.CURATOR, ROLES.MENTOR, ROLES.PSYCHOLOGIST].includes(u.role)).length;
     return (
         <div className={styles.filterContainer}>
-            <TextField placeholder={'Name'} fullWidth/>
-            <TextField placeholder={'Age'} fullWidth/>
-            <Button>Search!</Button>
+            <div>{`Всего пользователей: ${users.length}`}</div>
+            <div>{`Всего кураторов: ${curatorsCount}`}</div>
+            <div>{`Всего наставников: ${mentorsCount}`}</div>
+            <div>{`Всего психологов: ${psychologistCount}`}</div>
+            <div>{`Всего анкет: ${requestsCount}`}</div>
         </div>
         /*
 * <>
