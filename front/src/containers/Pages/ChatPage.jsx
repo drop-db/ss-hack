@@ -10,10 +10,42 @@ import Form from "../../components/common/Form/Form";
 import {ContentContext} from "../../context/ContentContext";
 import {AuthContext} from "../../context/AuthContext";
 
+const cities = [
+    {
+        value: 'krasnoyarsk',
+        label: 'Красноярск',
+    },
+    {
+        value: 'novosibirsk',
+        label: 'Новосибирск',
+    },
+    {
+        value: 'irkutsk',
+        label: 'Иркутск',
+    },
+    {
+        value: 'perm',
+        label: 'Пермь',
+    },
+    {
+        value: 'ufa',
+        label: 'Уфа',
+    },
+    {
+        value: 'tomsk',
+        label: 'Томск',
+    },
+    {
+        value: 'n_novgorod',
+        label: 'Нижний Новгород',
+    },
+];
+
+
 function ChatPage(props) {
-    const { localStream, remoteStream, callingTo, startCall, dropCall,sendChatMessage } = useContext(ChatContext);
-    const { users, chats, getUserName, getChat } = useContext(ContentContext);
-    const { user } = useContext(AuthContext);
+    const {localStream, remoteStream, callingTo, startCall, dropCall, sendChatMessage} = useContext(ChatContext);
+    const {users, chats, getUserName, getChat} = useContext(ContentContext);
+    const {user} = useContext(AuthContext);
 
     const scrollRef = useRef(null);
 
@@ -25,10 +57,10 @@ function ChatPage(props) {
 
     useEffect(() => {
         localVideoRef.current.srcObject = localStream;
-    }, [ localStream ]);
+    }, [localStream]);
     useEffect(() => {
         remoteVideoRef.current.srcObject = remoteStream;
-    }, [ remoteStream ]);
+    }, [remoteStream]);
 
     const getChatId = () => {
         const path = props.history.location.pathname;
@@ -80,7 +112,7 @@ function ChatPage(props) {
 
     useEffect(() => {
         scrollToBottom();
-    },[chats]);
+    }, [chats]);
 
     const scrollToBottom = () => {
         if (scrollRef.current) {
@@ -98,9 +130,10 @@ function ChatPage(props) {
     return (
         <div className={styles.chatPage}>
             <div className={styles.header}>
-                <div className={styles.oval} />
+                <div className={styles.oval}/>
                 <div className={styles.chatNames}>
-                    <div className={styles.name}>{userName}</div>
+                    <div
+                        className={styles.name}>{userName || `${chat.name} ${(cities.find(c => c.value === chat.city) || cities[0]).label}`}</div>
                     {/* if users in chat > 2 count of attendee*/}
                 </div>
                 {!disableCalls && (
@@ -124,18 +157,22 @@ function ChatPage(props) {
                         {chat && chat.messages.map(({message, createdAt, sender}) => {
                             const isMyMessage = sender.id === user.id;
                             return (
-                                <div className={classnames(styles.messageWrapper, isMyMessage && styles.myMessage)} key={message}>
+                                <div className={classnames(styles.messageWrapper, isMyMessage && styles.myMessage)}
+                                     key={message}>
                                     <div className={styles.avatar}/>
                                     <div className={classnames(styles.message)}>
-                                        <div className={styles.name}>{`${sender.lastName} ${sender.firstName} ${sender.secondName ? sender.secondName : ''}`}</div>
-                                        <div className={styles.time}>{`${new Date(createdAt).getHours()}:${new Date(createdAt).getMinutes()}`}</div>
+                                        <div
+                                            className={styles.name}>{`${sender.lastName} ${sender.firstName} ${sender.secondName ? sender.secondName : ''}`}</div>
+                                        <div
+                                            className={styles.time}>{`${new Date(createdAt).getHours()}:${new Date(createdAt).getMinutes()}`}</div>
                                         <div className={styles.text}>{message}</div>
                                     </div>
                                 </div>
                             )
                         })}
                         <div className={styles.inputWrapper}>
-                            <input className={styles.input} placeholder="Your message" onKeyUp={onKeyUp} value={message} onChange={handleChangeInput}/>
+                            <input className={styles.input} placeholder="Your message" onKeyUp={onKeyUp} value={message}
+                                   onChange={handleChangeInput}/>
                         </div>
                     </div>
                 </Scrollbar>
