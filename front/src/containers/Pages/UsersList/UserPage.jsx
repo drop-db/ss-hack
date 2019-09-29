@@ -12,7 +12,7 @@ export default function({userId, users}) {
     const user = users.filter(x => x.id ===userId)[0];
     const { firstName, lastName, secondName, sex,
         birthday, hasCar, hasChildren, isMarried, phone, email, city, livingArea,
-        education, experience, post, profession} = user;
+        education, experience, post, profession, role} = user;
     const handleChange = name => event => {
         setValues({ ...values, [name]: event.target.value });
     };
@@ -33,13 +33,23 @@ export default function({userId, users}) {
         education,
         experience,
         post,
-        profession
+        profession,
+        role
     });
 
     const statistics = user.role===roles.CONFIRMED_PSYCHOLOGIST
         ? {actions: user.lastActivityClicks}
         : null;
 
+    const rolesEngToRus = {
+            'mentor': "Наставник (заявка)",
+            'curator' : "Куратор (заявка)",
+            'psychologist' : "Психолог (заявка)",
+            'confirmedMentor': "Наставник",
+            'confirmedCurator': "Куратор",
+            'confirmedPsychologist': "Психолог",
+            'admin': "Админ",
+        };
 
     return (
         <div className={styles.outer}>
@@ -58,6 +68,7 @@ export default function({userId, users}) {
                             <p>Семья</p>
                             <p>Дети</p>
                             <p>Машина</p>
+                            <p>Роль</p>
                         </div>
                         <div className={styles.right}>
                             <InputBase
@@ -100,6 +111,11 @@ export default function({userId, users}) {
                                 value={values.hasCar ? 'Есть' : 'Нет'}
                                 className={styles.textField}
                                 onChange={handleChange('hasCar')}
+                            />
+                            <InputBase
+                                value={rolesEngToRus[values.role]}
+                                className={styles.textField}
+                                onChange={handleChange('role')}
                             />
                         </div>
                     </div>
