@@ -16,7 +16,7 @@ async function findOrCreateChat(fromUserId, toUserId, session) {
             secondUser: fromUser,
         }],
     });
-    if (existedChat) return existedChat;
+    if (existedChat) return existedChat.toDto();
     const [newChat] = await Chat.create([{
         name: `${toUser.firstName} и ${fromUser.firstName}`,
         firstUser: fromUser,
@@ -32,7 +32,7 @@ async function findOrCreateChat(fromUserId, toUserId, session) {
         fromUser.save(),
         toUser.save(),
     ]);
-    return newChat;
+    return newChat.toDto();
 }
 
 exports.findOrCreateChat = findOrCreateChat;
