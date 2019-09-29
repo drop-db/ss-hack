@@ -30,7 +30,7 @@ function SideBar(props) {
 
     return (
         <div className={classnames(styles.sideBar, !showMenu && styles.hidden)}>
-            <Button onClick={() => setShowMenu(false)} className={styles.toggleButton}>XXX</Button>
+            <Button onClick={() => setShowMenu(false)} className={styles.toggleButton}>X</Button>
             <div className={styles.self} onClick={() => props.history.push('/home/profile')}>
                 <div className={styles.avatar}/>
                 <div className={styles.name}>{user.firstName + ' ' +user.lastName}</div>

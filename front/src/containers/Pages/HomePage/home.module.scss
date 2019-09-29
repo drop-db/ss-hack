@@ -1,5 +1,13 @@
 @import '../../../assets/style/variables';
 
+.showMenuButton{
+  position: fixed;
+  left: 8px;
+  top: 8px;
+  z-index: 10;
+  display: none;
+}
+
 .mainContainer {
   background-color: $background-color;
   position: fixed;
@@ -10,12 +18,5 @@
   &.withoutMenu{
     left: 0;
     width: 100vw;
-  }
-  .showMenuButton{
-    position: fixed;
-    left: 8px;
-    top: 8px;
-    z-index: 10;
-    display: none;
   }
 }

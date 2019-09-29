@@ -24,7 +24,7 @@ function HomePage(props) {
     return (
         <React.Fragment>
             <SideBar />
-            {!showMenu && <button className={styles.showMenuButton} style={{zIndex:100}} onClick={()=>setShowMenu(true)}>-></button>}
+            {!showMenu && <Button style={{zIndex:100, width:'32px', height: '48px'}} onClick={()=>setShowMenu(true)}>-></Button>}
             <div className={classnames(styles.mainContainer, !showMenu && styles.withoutMenu)}>
                 <Route path="/home/profile" component={ProfilePage} />
                 <Route exact path="/home/chats" component={ChooseChat} />
