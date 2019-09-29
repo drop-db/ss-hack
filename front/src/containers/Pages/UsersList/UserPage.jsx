@@ -178,6 +178,5 @@ const ActionRow = ({row, users}) => {
     const user = users.filter(target => target.id ===row.user)[0];
     const linkLabel = `${user.firstName} ${user.secondName} ${user.lastName}`;
     const date = row.clickedAt.substr(0,10);
-    console.log(linkLabel)
     return <div style={{display:'flex'}}>Отчет пользователя <NavLink style={{margin:'0 6px'}} to={`/home/users/${user.id}`}> {linkLabel} </NavLink> был принят {date}</div>;
 };
