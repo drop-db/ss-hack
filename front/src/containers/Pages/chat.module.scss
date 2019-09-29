@@ -45,6 +45,30 @@
     position: relative;
     height: calc(100% - 80px);
 
+    .videos {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      transform: translateY(-50%);
+      z-index: 10;
+      width: 100%;
+      video {
+        position: absolute;
+        left: 0;
+        &.remoteVideo {
+          width: 100%;
+          z-index: 11;
+          top: 0;
+        }
+        &.localVideo {
+          width: 160px;
+          max-width: 50%;
+          bottom: 0;
+          z-index: 12;
+        }
+      }
+    }
+
     .messagesContainer {
       position: relative;
       display: flex;

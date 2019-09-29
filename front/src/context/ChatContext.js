@@ -16,7 +16,8 @@ import {WEBRTC_TYPES} from '../const/webrtc_types';
 const {OFFER, ANSWER, CANDIDATE, WEBRTC} = WEBRTC_TYPES;
 const DEFAULT_STATE = {
     localStream: null,
-    remoteStream: null
+    remoteStream: null,
+    calling: false
 };
 const OFFER_OPTIONS = {
     offerToReceiveAudio: true,
@@ -102,6 +103,7 @@ class ChatContainer extends React.Component {
 
     startCall = async (toUserId) => {
         const { authValue } = this.props;
+        this.setState({ calling: true });
 
         const peer = await this._createPeerConnection(toUserId);
         this._addPeerConnection(peer, toUserId);

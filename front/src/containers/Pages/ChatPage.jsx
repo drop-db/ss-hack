@@ -122,24 +122,24 @@ function ChatPage(props) {
                         </div>
                     </div>
                 </Scrollbar>
-            </div>
-
-
-            <div className={styles.videos}>
-                <video
-                    key="local"
-                    ref={localVideoRef}
-                    playsinline
-                    autoPlay
-                    border="5"
-                />
-                <video
-                    key="remote"
-                    ref={remoteVideoRef}
-                    playsinline
-                    autoPlay
-                    border="5"
-                />
+                <div className={styles.videos}>
+                    <video
+                        key="local"
+                        ref={localVideoRef}
+                        playsinline
+                        autoPlay
+                        border="5"
+                        className={styles.localVideo}
+                    />
+                    <video
+                        key="remote"
+                        ref={remoteVideoRef}
+                        playsinline
+                        autoPlay
+                        border="5"
+                        className={styles.remoteVideo}
+                    />
+                </div>
             </div>
         </div>
     );
