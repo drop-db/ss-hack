@@ -5,6 +5,7 @@ import styles from "./Menu.module.scss";
 import {ContentContext} from "../../context/ContentContext";
 import {AuthContext} from "../../context/AuthContext";
 import _ from 'lodash';
+import Scrollbar from "../../components/common/Scrollbar/Scrollbar";
 
 
 const cities = [
@@ -75,6 +76,7 @@ export default function Menu(items1){
     const [activeGroup, setActiveGroup] = useState(null);
     return (
         <div className={styles.menuContainer}>
+            <Scrollbar autoHeight autoHeightMin={'70vh'} autoHide>
             {commonItems.map((commonItem, index) =>
                 <InnerItem
                     links={commonItem.links}
@@ -84,11 +86,13 @@ export default function Menu(items1){
                     onClick={()=>setActiveGroup(index)}
                 />)
             }
-            <div className={styles.privateChatsBlock}>
-                {
-                    privateChats.map(privateItem => <NavLink className={styles.navLink} to={privateItem.path}>{privateItem.label}</NavLink>)
-                }
-            </div>
+
+                <div className={styles.privateChatsBlock}>
+                    {
+                        privateChats.map(privateItem => <NavLink className={styles.navLink} to={privateItem.path}>{privateItem.label}</NavLink>)
+                    }
+                </div>
+            </Scrollbar>
         </div>
     )
 }

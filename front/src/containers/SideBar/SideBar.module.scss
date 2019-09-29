@@ -10,10 +10,16 @@
         max-width: 115px !important;
       }
   }
+  &.hidden{
+    display:none;
+  }
   .toggleButton{
     display: none;
     @media(max-width: 720px){
       display: flex;
+      transform:translateX(320px);
+      width: 32px;
+      height: 32px;
     }
   }
   padding: 1.5rem .75rem;
@@ -21,6 +27,7 @@
   .tab{
     width: 115px;
   }
+
   .self{
     cursor: pointer;
     display: grid;

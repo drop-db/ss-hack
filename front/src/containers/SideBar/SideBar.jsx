@@ -8,16 +8,16 @@ import TABS from '../../components/common/Tab/Tab';
 import ChatsSideBar from "./ChatsSideBar";
 import FiltersSideBar from "./FiltersSideBar";
 import Button from "../../components/common/Button/Button";
+import {ContentContext} from "../../context/ContentContext";
 
 const { Tab, Tabs } = TABS;
 
 const widthStyle = {minWidth: '115px'};
 
-
 function SideBar(props) {
     const {user, logout} = useContext(AuthContext);
+    const {showMenu, setShowMenu} = useContext(ContentContext);
     const [value, setValue] = useState(0);
-    const [showMenu, setShowMenu] = useState(true);
     const handleChange = (event, newValue) => {
         event.preventDefault();
         setValue(newValue);
@@ -30,6 +30,7 @@ function SideBar(props) {
 
     return (
         <div className={classnames(styles.sideBar, !showMenu && styles.hidden)}>
+            <Button onClick={() => setShowMenu(false)} className={styles.toggleButton}>X</Button>
             <div className={styles.self} onClick={() => props.history.push('/home/profile')}>
                 <div className={styles.avatar}/>
                 <div className={styles.name}>{user.firstName + ' ' +user.lastName}</div>
