@@ -11,7 +11,7 @@ import {ContentContext} from "../../context/ContentContext";
 import {AuthContext} from "../../context/AuthContext";
 
 function ChatPage(props) {
-    const { localStream, remoteStream, startCall, sendChatMessage } = useContext(ChatContext);
+    const { localStream, remoteStream, calling, startCall, dropCall,sendChatMessage } = useContext(ChatContext);
     const { users, chats, getUserName, getChat } = useContext(ContentContext);
     const { user } = useContext(AuthContext);
 
@@ -72,6 +72,12 @@ function ChatPage(props) {
         startCall(userId);
     };
 
+    const dropCallWithUser = () => {
+        const userId = findUserByChatId();
+        if (!userId) return null;
+        dropCall(userId);
+    };
+
     useEffect(() => {
         scrollToBottom();
     },[chats]);
@@ -85,6 +91,8 @@ function ChatPage(props) {
     const userName = getUserName(findUserByChatId());
     const chat = getChat(getChatId());
 
+    const isUsersCalling = calling && localStream && remoteStream;
+
     return (
         <div className={styles.chatPage}>
             <div className={styles.header}>
@@ -93,9 +101,14 @@ function ChatPage(props) {
                     <div className={styles.name}>{userName}</div>
                     {/* if users in chat > 2 count of attendee*/}
                 </div>
-                <Button onClick={call}>
-                    Start call
-                </Button>
+                <div className={styles.callButtons}>
+                    <Button onClick={call}>
+                        Позвонить
+                    </Button>
+                    <Button onClick={dropCallWithUser} classNames={styles.drop}>
+                        Завершить звонок
+                    </Button>
+                </div>
             </div>
             <div className={styles.chatView}>
                 <Scrollbar
@@ -122,23 +135,27 @@ function ChatPage(props) {
                         </div>
                     </div>
                 </Scrollbar>
-                <div className={styles.videos}>
-                    <video
-                        key="local"
-                        ref={localVideoRef}
-                        playsinline
-                        autoPlay
-                        border="5"
-                        className={styles.localVideo}
-                    />
-                    <video
-                        key="remote"
-                        ref={remoteVideoRef}
-                        playsinline
-                        autoPlay
-                        border="5"
-                        className={styles.remoteVideo}
-                    />
+                <div className={classnames(styles.videosWrapper, !isUsersCalling && styles.hide)}>
+                    <div className={styles.videos}>
+                        <video
+                            key="local"
+                            ref={localVideoRef}
+                            playsinline
+                            autoPlay
+                            border="5"
+                            className={styles.localVideo}
+                        />
+                        <video
+                            key="remote"
+                            ref={remoteVideoRef}
+                            playsinline
+                            autoPlay
+                            border="5"
+                            className={styles.remoteVideo}
+                        />
+                    </div>
+
+
                 </div>
             </div>
         </div>
