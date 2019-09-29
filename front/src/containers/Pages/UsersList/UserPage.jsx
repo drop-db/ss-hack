@@ -1,13 +1,13 @@
 import React, {useContext, useState} from 'react';
-import {AuthContext} from "../../context/AuthContext";
-import Scrollbar from "../../components/common/Scrollbar/Scrollbar";
-import styles from './ProfilePage.module.scss';
+import Scrollbar from "../../../components/common/Scrollbar/Scrollbar";
+import styles from './UserPage.module.scss';
 import InputBase from '@material-ui/core/InputBase';
 
-export default function(props) {
-    const {updateUser, user, user: { firstName, lastName, secondName, sex,
+export default function({userId, users}) {
+    const user = users.filter(x => x.id ===userId)[0];
+    const { firstName, lastName, secondName, sex,
         birthday, hasCar, hasChildren, isMarried, phone, email, city, livingArea,
-        education, experience, post, profession}} = useContext(AuthContext);
+        education, experience, post, profession} = user;
     const handleChange = name => event => {
         setValues({ ...values, [name]: event.target.value });
     };
@@ -33,7 +33,7 @@ export default function(props) {
 
     return (
         <div className={styles.outer}>
-            <h2>Моя анкета</h2>
+            <h2>{firstName+' '+lastName}</h2>
             <Scrollbar autoHeight autoHeightMin={'90vh'}>
                 <div className={styles.container}>
                     <div className={styles.personal}>
@@ -93,36 +93,36 @@ export default function(props) {
                         </div>
                     </div>
                     <div className={styles.personal}>
-                    <div className={styles.left}>Контакты</div>
-                    <div className={styles.center}>
-                        <p>Телефон</p>
-                        <p>E-mail</p>
-                        <p>Город</p>
-                        <p>Район</p>
+                        <div className={styles.left}>Контакты</div>
+                        <div className={styles.center}>
+                            <p>Телефон</p>
+                            <p>E-mail</p>
+                            <p>Город</p>
+                            <p>Район</p>
+                        </div>
+                        <div className={styles.right}>
+                            <InputBase
+                                className={styles.textField}
+                                value={values.phone}
+                                onChange={handleChange('phone')}
+                            />
+                            <InputBase
+                                className={styles.textField}
+                                value={values.email}
+                                onChange={handleChange('email')}
+                            />
+                            <InputBase
+                                className={styles.textField}
+                                value={values.city}
+                                onChange={handleChange('city')}
+                            />
+                            <InputBase
+                                className={styles.textField}
+                                value={values.livingArea}
+                                onChange={handleChange('livingArea')}
+                            />
+                        </div>
                     </div>
-                    <div className={styles.right}>
-                        <InputBase
-                            className={styles.textField}
-                            value={values.phone}
-                            onChange={handleChange('phone')}
-                        />
-                        <InputBase
-                            className={styles.textField}
-                            value={values.email}
-                            onChange={handleChange('email')}
-                        />
-                        <InputBase
-                            className={styles.textField}
-                            value={values.city}
-                            onChange={handleChange('city')}
-                        />
-                        <InputBase
-                            className={styles.textField}
-                            value={values.livingArea}
-                            onChange={handleChange('livingArea')}
-                        />
-                    </div>
-                </div>
                     <div className={styles.personal}>
                         <div className={styles.left}>Работа</div>
                         <div className={styles.center}>

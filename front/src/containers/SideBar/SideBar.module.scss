@@ -21,7 +21,32 @@
   .tab{
     width: 115px;
   }
-
+  .self{
+    cursor: pointer;
+    display: grid;
+    grid-template: 'avatar name' 24px 'avatar role' 24px / 56px;
+    .avatar{
+      grid-area: avatar;
+      width: 48px;
+      height: 48px;
+      border-radius: 48px;
+      background-color: #9EAEC7;
+    }
+    .role{
+      display: flex;
+      justify-content: left;
+      grid-area: role;
+      color: rgba(29, 29, 27, 0.3);
+      font-size: 15px;
+    }
+    .name{
+      display: flex;
+      justify-content: left;
+      grid-area: name;
+      font-size: 17px;
+      font-weight: bold;
+    }
+  }
   .sideContent{
     width: 100%;
     min-height: 20rem;
