@@ -92,7 +92,7 @@ class ContextContainer extends React.Component {
         const userObj = this.state.users.filter(userTmp => userTmp.id === userId)[0];
         if (!userObj) return null;
 
-        return `${userObj.firstName} ${userObj.secondName}`;
+        return `${userObj.lastName} ${userObj.firstName} ${userObj.secondName ? userObj.secondName : ''}`;
 
     };
     getChat = (chatId) => {
