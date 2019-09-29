@@ -9,6 +9,7 @@ import Button from "../../../components/common/Button/Button";
 
 import Scrollbar from "../../../components/common/Scrollbar/Scrollbar";
 import {AuthContext} from "../../../context/AuthContext";
+import UserPage from './UserPage';
 
 const eventCreateRoom = 'messages:room'; // userId
 
@@ -76,15 +77,4 @@ function UsersList(props) {
 
     return renderedList;
 }
-
-
-const UserPage = ({userId, users}) => {
-    const user = users.filter(target => target.id === userId)[0];
-    return <div>
-        <h2>{`User #${userId} page`}</h2>
-        <p>Name: {user.firstName}</p>
-        <p>Last Name : {user.lastName}</p>
-    </div>;
-};
 export default withRouter(UsersList);
-//

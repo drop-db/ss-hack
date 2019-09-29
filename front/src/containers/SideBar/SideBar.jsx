@@ -29,8 +29,12 @@ function SideBar(props) {
         : <FiltersSideBar/>;
 
     return (
-        <div className={classnames(styles.sideBar, !showMenu&&styles.hidden)}>
-            <Button onClick={()=>setShowMenu(false)}>X</Button>
+        <div className={classnames(styles.sideBar, !showMenu && styles.hidden)}>
+            <div className={styles.self} onClick={() => props.history.push('/home/profile')}>
+                <div className={styles.avatar}/>
+                <div className={styles.name}>{user.firstName + ' ' +user.lastName}</div>
+                <div className={styles.role}>{user.role}</div>
+            </div>
             <Tabs value={value} onChange={handleChange}>
                 <Tab style={widthStyle} index={0} value={'/home/chats'} label={'Chats'} />
                 <Tab style={widthStyle} index={1} value={'/home/users'} label={'Users'}/>

@@ -53,3 +53,10 @@ exports.patchUser = validate({
     },
 });
 
+//  PUT /v1/users/activity/:userId
+exports.updateLastActivity = validate({
+    params: {
+        userId: objectId(),
+    },
+});
+
