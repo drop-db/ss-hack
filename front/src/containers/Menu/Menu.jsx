@@ -1,9 +1,14 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from "react";
 import { NavLink } from "react-router-dom";
 import Button from "../../components/common/Button/Button";
 import styles from "./Menu.module.scss";
+import {ContentContext} from "../../context/ContentContext";
+import {AuthContext} from "../../context/AuthContext";
 
 export default function Menu(items1){
+    const {chats, getUserName} = useContext(ContentContext);
+    const {user} = useContext(AuthContext);
+
     const commonItems = [
         {
             groupName: 'Новосибирск',
@@ -46,6 +51,24 @@ export default function Menu(items1){
         }
     ];
 
+
+
+    const getUserNameByChatId = (chatId) => {
+        const ourChat = chats.filter(chat => chat.id === chatId)[0];
+        if (!ourChat) return null;
+
+        const remoteUser = ourChat.users.filter(userTmp => userTmp.id !== user.id)[0];
+        return getUserName(remoteUser && remoteUser.id);
+    };
+
+    const privateChats = chats.map((chat) => {
+        const userName = getUserNameByChatId(chat.id);
+        if (userName === null) return null;
+
+        return { label: userName, path: `/home/chats/${chat.id}`};
+    }).filter(chat => chat !== null);
+
+
     const privateItems = [
         {label: 'John', path: '/home/chats/1234567'},
         {label: 'James', path: '/home/chats/234567'}
@@ -64,7 +87,7 @@ export default function Menu(items1){
             }
             <div className={styles.privateChatsBlock}>
                 {
-                    privateItems.map(privateItem => <NavLink className={styles.navLink} to={privateItem.path}>{privateItem.label}</NavLink>)
+                    privateChats.map(privateItem => <NavLink className={styles.navLink} to={privateItem.path}>{privateItem.label}</NavLink>)
                 }
             </div>
         </div>

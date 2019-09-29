@@ -25,7 +25,8 @@ function HomePage(props) {
             <SideBar />
             <div className={styles.mainContainer}>
                 <Route path="/home/profile" component={ProfilePage} />
-                <Route path="/home/chats" component={ChatPage} />
+                <Route exact path="/home/chats" component={ChooseChat} />
+                <Route path="/home/chats/:id" component={ChatPage} />
                 <Route path={[ '/home/requests', '/home/users']} component={UsersList} />
                 {isAdmin && (
                     <React.Fragment>
@@ -36,6 +37,14 @@ function HomePage(props) {
                 <Redirect to='/home/profile'/>
             </div>
         </React.Fragment>
+    )
+}
+
+function ChooseChat() {
+    return (
+        <div style={{ height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center', fontWeight: 'bold', fontSize: '25px' }}>
+            Выберите собеседника
+        </div>
     )
 }
 
