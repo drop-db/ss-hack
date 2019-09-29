@@ -91,7 +91,7 @@ function ChatPage(props) {
     const userName = getUserName(findUserByChatId());
     const chat = getChat(getChatId());
 
-    const disableCalls = chat.users.length !== 2;
+    const disableCalls = chat.users.length !== 2 || chat.city;
 
     const isUsersCalling = callingTo && localStream && remoteStream;
 
@@ -127,7 +127,7 @@ function ChatPage(props) {
                                 <div className={classnames(styles.messageWrapper, isMyMessage && styles.myMessage)} key={message}>
                                     <div className={styles.avatar}/>
                                     <div className={classnames(styles.message)}>
-                                        <div className={styles.name}>{`${sender.firstName} ${sender.secondName}`}</div>
+                                        <div className={styles.name}>{`${sender.lastName} ${sender.firstName} ${sender.secondName ? sender.secondName : ''}`}</div>
                                         <div className={styles.time}>{`${new Date(createdAt).getHours()}:${new Date(createdAt).getMinutes()}`}</div>
                                         <div className={styles.text}>{message}</div>
                                     </div>

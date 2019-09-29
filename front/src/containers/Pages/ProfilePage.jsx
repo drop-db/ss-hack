@@ -36,10 +36,6 @@ const cities = [
 ];
 
 
-export default function(props) {
-    const {updateUser, user, user: { firstName, lastName, secondName, sex,
-        birthday, hasCar, hasChildren, isMarried, phone, email, city, livingArea,
-        education, experience, post, profession}} = useContext(AuthContext);
 export default function (props) {
     const {
         updateUser, user, user: {
