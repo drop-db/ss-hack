@@ -27,14 +27,23 @@ function SideBar(props) {
     const menuContent = currentPath === '/home/chats'
         ? <ChatsSideBar/>
         : <FiltersSideBar/>;
-
+    const rolesEngToRus = {
+        'mentor': "Наставник (заявка)",
+        'curator' : "Куратор (заявка)",
+        'psychologist' : "Психолог (заявка)",
+        'confirmedMentor': "Наставник",
+        'confirmedCurator': "Куратор",
+        'confirmedPsychologist': "Психолог",
+        'admin': "Админ",
+    };
+    const userRole = rolesEngToRus[user.role];
     return (
         <div className={classnames(styles.sideBar, !showMenu && styles.hidden)}>
             <Button onClick={() => setShowMenu(false)} className={styles.toggleButton}>X</Button>
             <div className={styles.self} onClick={() => props.history.push('/home/profile')}>
                 <div className={styles.avatar}/>
                 <div className={styles.name}>{`${user.lastName} ${user.firstName}`}</div>
-                <div className={styles.role}>{user.role}</div>
+                <div className={styles.role}>{userRole}</div>
             </div>
             <Tabs value={value} onChange={handleChange}>
                 <Tab style={widthStyle} index={0} value={'/home/chats'} label={'Чаты'} />
