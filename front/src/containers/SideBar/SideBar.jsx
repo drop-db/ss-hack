@@ -23,10 +23,11 @@ function SideBar(props) {
         setValue(newValue);
         props.history.push(newValue);
     };
-    const currentPath = props.history.location.pathname;
+    const currentPath = props.history.location.pathname.slice(0, 11);
     const menuContent = currentPath === '/home/chats'
         ? <ChatsSideBar/>
         : <FiltersSideBar/>;
+
     return (
         <div className={classnames(styles.sideBar, !showMenu && styles.hidden)}>
             <div className={styles.self} onClick={() => props.history.push('/home/profile')}>

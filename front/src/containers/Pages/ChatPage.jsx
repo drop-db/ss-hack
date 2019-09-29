@@ -1,4 +1,5 @@
 import React, {useContext, useRef, useEffect, useState} from "react";
+import classnames from 'classnames';
 import {withRouter} from 'react-router';
 import {ChatContext} from "../../context/ChatContext";
 import Button from "../../components/common/Button/Button";
@@ -11,8 +12,10 @@ import {AuthContext} from "../../context/AuthContext";
 
 function ChatPage(props) {
     const { localStream, remoteStream, startCall, sendChatMessage } = useContext(ChatContext);
-    const { users, chats } = useContext(ContentContext);
+    const { users, chats, getUserName, getChat } = useContext(ContentContext);
     const { user } = useContext(AuthContext);
+
+    const scrollRef = useRef(null);
 
 
     const localVideoRef = useRef(null);
@@ -58,9 +61,9 @@ function ChatPage(props) {
         const ourChat = chats.filter(chat => chat.id === chatId)[0];
         if (!ourChat) return null;
 
-        const remoteUserId = ourChat.users.filter(userTmp => userTmp !== user.id)[0];
+        const remoteUser = ourChat.users.filter(userTmp => userTmp.id !== user.id)[0];
 
-        return remoteUserId;
+        return remoteUser && remoteUser.id;
     };
 
     const call = () => {
@@ -69,22 +72,25 @@ function ChatPage(props) {
         startCall(userId);
     };
 
-    /*
-* id: "5d8fcd7b081b190017502c3c"
-messages: (16) [{…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}]
-name: "Nik и 2"
-users: Array(2)
-0: "5d8fc37f3ad84b00171a5fd5"
-1: "5d8fa4c6923ba700171f05e5"
-length: 2
-* */
+    useEffect(() => {
+        scrollToBottom();
+    },[chats]);
+
+    const scrollToBottom = () => {
+        if (scrollRef.current) {
+            scrollRef.current.scrollToBottom();
+        }
+    };
+
+    const userName = getUserName(findUserByChatId());
+    const chat = getChat(getChatId());
 
     return (
         <div className={styles.chatPage}>
             <div className={styles.header}>
                 <div className={styles.oval} />
                 <div className={styles.chatNames}>
-                    <div className={styles.name}>Name</div>
+                    <div className={styles.name}>{userName}</div>
                     {/* if users in chat > 2 count of attendee*/}
                 </div>
                 <Button onClick={call}>
@@ -92,30 +98,49 @@ length: 2
                 </Button>
             </div>
             <div className={styles.chatView}>
-                <Scrollbar autoHeight autoHeightMin='calc(100vh - 80px - 32px)'>
+                <Scrollbar
+                    autoHeight
+                    autoHeightMin='calc(100vh - 80px - 32px)'
+                    scrollbarRef={scrollRef}
+                >
                     <div className={styles.messagesContainer}>
-                    </div>
-                    <div className={styles.input}>
-                        <input onKeyUp={onKeyUp} value={message} onChange={handleChangeInput}/>
+                        {chat && chat.messages.map(({message, createdAt, sender}) => {
+                            const isMyMessage = sender.id === user.id;
+                            return (
+                                <div className={classnames(styles.messageWrapper, isMyMessage && styles.myMessage)} key={message}>
+                                    <div className={styles.avatar}/>
+                                    <div className={classnames(styles.message)}>
+                                        <div className={styles.name}>{`${sender.firstName} ${sender.secondName}`}</div>
+                                        <div className={styles.time}>{`${new Date(createdAt).getHours()}:${new Date(createdAt).getMinutes()}`}</div>
+                                        <div className={styles.text}>{message}</div>
+                                    </div>
+                                </div>
+                            )
+                        })}
+                        <div className={styles.inputWrapper}>
+                            <input className={styles.input} placeholder="Your message" onKeyUp={onKeyUp} value={message} onChange={handleChangeInput}/>
+                        </div>
                     </div>
                 </Scrollbar>
             </div>
 
 
-            <video
-                key="local"
-                ref={localVideoRef}
-                playsInline
-                autoPlay
-                border="5"
-            />
-            <video
-                key="remote"
-                ref={remoteVideoRef}
-                playsInline
-                autoPlay
-                border="5"
-            />
+            <div className={styles.videos}>
+                <video
+                    key="local"
+                    ref={localVideoRef}
+                    playsinline
+                    autoPlay
+                    border="5"
+                />
+                <video
+                    key="remote"
+                    ref={remoteVideoRef}
+                    playsinline
+                    autoPlay
+                    border="5"
+                />
+            </div>
         </div>
     );
 }

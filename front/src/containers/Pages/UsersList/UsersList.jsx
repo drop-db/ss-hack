@@ -15,7 +15,7 @@ import _ from 'lodash';
 const eventCreateRoom = 'messages:room'; // userId
 
 function UsersList(props) {
-    const {users} = useContext(ContentContext);
+    const {users, addChat} = useContext(ContentContext);
     const {user} = useContext(AuthContext);
 
     const filteredUsers = users.filter(target => target.id !== user.id);
@@ -32,9 +32,9 @@ function UsersList(props) {
     }
 
     const handleContact = async function (userId) {
-        const { chatId } = await window.socketHACKATON.send(eventCreateRoom, { userId });
-
-        props.history.push(`/home/chats/${chatId}`);
+        const { chat } = await window.socketHACKATON.send(eventCreateRoom, { userId });
+        addChat(chat);
+        props.history.push(`/home/chats/${chat.id}`);
     };
 
     const renderList = (users, rolesToRender, notConfirmed) => {
