@@ -4,6 +4,7 @@ import 'webrtc-adapter';
 
 import SocketClient from "../modules/SocketClient";
 import { AuthContext } from "./AuthContext";
+import { ContentContext } from "./ContentContext";
 
 import ICE_SERVERS from '../const/stunServers';
 import host from '../const/host';
@@ -36,6 +37,7 @@ class ChatContainer extends React.Component {
 
         this.eventHandlers = [
             {key: WEBRTC, handler: this.handleWebRTCData},
+            {key: 'messages:new', handler: this.handleNewMessage}
             // {key: "chat:message", handler: this.addNewMessage},
         ];
 
@@ -75,6 +77,12 @@ class ChatContainer extends React.Component {
 
     sendChatMessage = async (chatId, message) => {
         await this.send('messages:new', { chatId, message })
+    };
+
+    handleNewMessage = () => {
+        const {contentValue, authValue} = this.props;
+        const user = authValue.user;
+        contentValue.fetchChats(user);
     };
 
     componentWillReceiveProps({authValue: nextAuthValue}) {
@@ -334,9 +342,14 @@ class ChatContainer extends React.Component {
 
 function Container(props) {
     return (
-        <AuthContext.Consumer>
-            {value => <ChatContainer authValue={value} {...props} />}
-        </AuthContext.Consumer>
+        <ContentContext.Consumer>
+            {valueContent => (
+                <AuthContext.Consumer>
+                    {value => <ChatContainer contentValue={valueContent} authValue={value} {...props} />}
+                </AuthContext.Consumer>
+            )}
+        </ContentContext.Consumer>
+
     );
 }
 

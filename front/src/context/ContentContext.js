@@ -18,7 +18,11 @@ class ContextContainer extends React.Component {
             getUsersByRole: this.getUsersByRole,
             getAllUsers: this.getAllUsers,
             getAllChildren: this.getAllChildren,
-            fetchInit: this.fetchInit
+            fetchInit: this.fetchInit,
+            getUserName: this.getUserName,
+            getChat: this.getChat,
+            fetchChats: this.fetchChats,
+            addChat: this.addChat
         };
 
         window.cc = this;
@@ -30,14 +34,22 @@ class ContextContainer extends React.Component {
 
     fetchInit = async (user) => {
         await this.getAllUsers();
-        const { chats }= await window.socketHACKATON.send('messages:chats', {userId: user.id});
-        this.setState({ chats });
-        console.log('fetched! ', chats);
-
+        await this.fetchChats(user);
 
         // todo attach user and chats in context
 
     }
+
+    addChat = (chat) => {
+        if (this.state.chats.some(chatTmp => chat.id === chatTmp.id)) return;
+        this.setState({ chats: [ ...this.state.chats, chat ] });
+    };
+
+    fetchChats = async (user) => {
+        const { chats } = await window.socketHACKATON.send('messages:chats', {userId: user.id});
+        this.setState({ chats });
+        console.log('fetched! ', chats);
+    };
 
     getAllChildren = () => {
         const onSuccess = (data) => console.log(data);
@@ -67,6 +79,18 @@ class ContextContainer extends React.Component {
         const data = await axios.get(`${host.HOST_API}/users`, this._getRequestConfig());
         const newUsers = _.get(data, 'data.users', []);
         this.setState({users: [ ...newUsers ]})
+    };
+
+    getUserName = (userId) => {
+        const userObj = this.state.users.filter(userTmp => userTmp.id === userId)[0];
+        if (!userObj) return null;
+
+        return `${userObj.firstName} ${userObj.secondName}`;
+
+    };
+    getChat = (chatId) => {
+        const chatObj = this.state.chats.filter(chatTmp => chatTmp.id === chatId)[0];
+        return chatObj
     };
 
     registerChild = fields => {
