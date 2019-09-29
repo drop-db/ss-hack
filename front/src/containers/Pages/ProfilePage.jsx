@@ -66,7 +66,7 @@ export default function (props) {
         post,
         profession
     });
-    const userCity = (cities.find(c => c.value === city) || cities[0]).label;
+    values.city = (cities.find(c => c.value === city) || cities[0]).label;
 
     values.birthday = new Date(values.birthday).toISOString().substr(0, 10);
 
