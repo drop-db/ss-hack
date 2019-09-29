@@ -1,5 +1,5 @@
 import React, {useContext, useEffect} from "react";
-import { withRouter } from "react-router";
+import {withRouter} from "react-router";
 import {ContentContext} from "../../../context/ContentContext";
 import ROLES from "../../../const/roles";
 
@@ -11,6 +11,37 @@ import Scrollbar from "../../../components/common/Scrollbar/Scrollbar";
 import {AuthContext} from "../../../context/AuthContext";
 import UserPage from './UserPage';
 import _ from 'lodash';
+
+const cities = [
+    {
+        value: 'krasnoyarsk',
+        label: 'Красноярск',
+    },
+    {
+        value: 'novosibirsk',
+        label: 'Новосибирск',
+    },
+    {
+        value: 'irkutsk',
+        label: 'Иркутск',
+    },
+    {
+        value: 'perm',
+        label: 'Пермь',
+    },
+    {
+        value: 'ufa',
+        label: 'Уфа',
+    },
+    {
+        value: 'tomsk',
+        label: 'Томск',
+    },
+    {
+        value: 'n_novgorod',
+        label: 'Нижний Новгород',
+    },
+];
 
 const eventCreateRoom = 'messages:room'; // userId
 
@@ -32,7 +63,7 @@ function UsersList(props) {
     }
 
     const handleContact = async function (userId) {
-        const { chat } = await window.socketHACKATON.send(eventCreateRoom, { userId });
+        const {chat} = await window.socketHACKATON.send(eventCreateRoom, {userId});
         addChat(chat);
         props.history.push(`/home/chats/${chat.id}`);
     };
@@ -42,45 +73,43 @@ function UsersList(props) {
         const extraColumns = notConfirmed
             ? <>
                 <div className={styles.thirdBlock}>
-                    <div>{(new Date()).toISOString().substr(0,10)}</div>
-                </div>
-                <div className={styles.forthBlock}>
-                    <div>На рассмотрении</div>
+                    <div>{(new Date()).toISOString().substr(0, 10)}</div>
                 </div>
             </>
             : null;
 
-        return <Scrollbar autoHeight autoHeightMin='95vh'  >
+        return <Scrollbar autoHeight autoHeightMin='95vh'>
             {users.map(user => {
-                if (!rolesToRender.some((role) => role === user.role )) return null;
+                if (!rolesToRender.some((role) => role === user.role)) return null;
                 const {lastActivityClicks} = user;
-                const sortedActivities = _.sortBy(lastActivityClicks,o => o.clickedAt)
+                const sortedActivities = _.sortBy(lastActivityClicks, o => o.clickedAt)
                 const sortedActivitiesLength = sortedActivities.length;
-                const lastActivity = sortedActivitiesLength ? sortedActivities[sortedActivitiesLength-1].clickedAt : null;
-                const dataClicks = {total: sortedActivitiesLength, last: lastActivity}
+                const lastActivity = sortedActivitiesLength ? sortedActivities[sortedActivitiesLength - 1].clickedAt : null;
+                const dataClicks = {total: sortedActivitiesLength, last: lastActivity};
+                const city = (cities.find(c => c.value === user.city) || cities[0]).label;
                 return (
                     <NavLink className={styles.navLink} to={`/home/users/${user.id}`}>
                         <div className={styles.userRow}>
                             <div className={styles.firstBlock}>
-                                <div className={styles.avatar} />
-                                <div className={styles.name}>{user.firstName + ' ' +user.secondName}</div>
-                                <div className={styles.city}>{user.city}</div>
+                                <div className={styles.avatar}/>
+                                <div
+                                    className={styles.name}>{user.lastName + ' '+  user.firstName + ' ' + (user.secondName ? user.secondName : '' )}</div>
+                                <div className={styles.city}>{city}</div>
                             </div>
                             <div className={styles.secondBlock}>
                                 <div className={styles.age}>{user.sex ? 'Мужской' : 'Женский'} • 24</div>
                             </div>
-                            { notConfirmed
+                            {notConfirmed
                                 ? extraColumns
                                 : <>
-                                        <div className={styles.thirdBlock}>
-                                        <div>{ dataClicks.last ? new Date(dataClicks.last).toISOString().substr(0,10) : '-'}</div>
-                                        </div>
-                                        <div className={styles.forthBlock}>
+                                    <div className={styles.thirdBlock}>
+                                        <div>{dataClicks.last ? new Date(dataClicks.last).toISOString().substr(0, 10) : '-'}</div>
+                                    </div>
+                                    <div className={styles.forthBlock}>
                                         <div>{dataClicks.total}</div>
-                                        </div>
+                                    </div>
                                 </>
                             }
-                            <div className={styles.lastBlock}>•••</div>
                             <Button onClick={handleContact.bind(this, user.id)}>Связаться</Button>
                         </div>
                     </NavLink>
@@ -94,4 +123,5 @@ function UsersList(props) {
 
     return renderedList;
 }
+
 export default withRouter(UsersList);

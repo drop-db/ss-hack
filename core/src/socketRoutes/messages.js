@@ -5,6 +5,7 @@ const { getUserChats } = require('../services/messages/getUserChats');
 const joinIfActive = require('../utils/joinIfActive');
 const logger = require('../config/logger');
 const emitInRoom = require('../utils/emitInRoomIfActive');
+const getSocketsInRoom = require('../utils/getSocketsInRoom');
 
 const NEW_MESSAGE = 'messages:new';
 const NEW_ROOM = 'messages:room';
@@ -27,6 +28,11 @@ module.exports = function setMessageMessages(socket) {
             if (!message) {
                 socket.emit(NEW_MESSAGE, {});
                 return;
+            }
+            const socketInRoom = getSocketsInRoom(message.chat);
+            const currentSocketInRoom = socketInRoom.find(s => s.userId === socket.userId);
+            if (!currentSocketInRoom) {
+                socket.emit(NEW_MESSAGE, message);
             }
             emitInRoom(message.chat, NEW_MESSAGE, message);
         } catch (e) {
