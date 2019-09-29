@@ -62,7 +62,9 @@ function UsersList(props) {
         roles = [ROLES.CONFIRMED_MENTOR, ROLES.CONFIRMED_PSYCHOLOGIST, ROLES.CONFIRMED_CURATOR, ROLES.ADMIN];
     }
 
-    const handleContact = async function (userId) {
+    const handleContact = async function (userId, event) {
+        event.stopPropagation();
+        event.preventDefault();
         const {chat} = await window.socketHACKATON.send(eventCreateRoom, {userId});
         addChat(chat);
         props.history.push(`/home/chats/${chat.id}`);
