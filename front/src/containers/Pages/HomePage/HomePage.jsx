@@ -14,7 +14,7 @@ import Button from "../../../components/common/Button/Button";
 
 function HomePage(props) {
     const {user} = useContext(AuthContext);
-    const {fetchInit, showMenu, setShowMenu} = useContext(ContentContext);
+    const {fetchInit, calling, showMenu, setShowMenu} = useContext(ContentContext);
 
     useEffect(() => {
         if (user) fetchInit(user)
@@ -27,8 +27,16 @@ function HomePage(props) {
             {!showMenu && <Button style={{zIndex:100, width:'32px', height: '48px'}} onClick={()=>setShowMenu(true)}>-></Button>}
             <div className={classnames(styles.mainContainer, !showMenu && styles.withoutMenu)}>
                 <Route path="/home/profile" component={ProfilePage} />
-                <Route exact path="/home/chats" component={ChooseChat} />
-                <Route path="/home/chats/:id" component={ChatPage} />
+                {!calling ? (
+                    <React.Fragment>
+                        <Route exact path="/home/chats" component={ChooseChat} />
+                        <Route path="/home/chats/:id" component={ChatPage} />
+                    </React.Fragment>
+                ) : (
+                    <React.Fragment>
+                        <Route path="/home/chats" component={ChatPage} />
+                    </React.Fragment>
+                )}
                 <Route path={[ '/home/requests', '/home/users']} component={UsersList} />
                 {isAdmin && (
                     <React.Fragment>
