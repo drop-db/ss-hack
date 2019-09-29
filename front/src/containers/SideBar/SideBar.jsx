@@ -1,4 +1,4 @@
-import React, {useContext, useState, } from 'react';
+import React, {useContext, useState,} from 'react';
 import {withRouter} from 'react-router';
 import classnames from 'classnames';
 import {AuthContext} from "../../context/AuthContext";
@@ -9,8 +9,9 @@ import ChatsSideBar from "./ChatsSideBar";
 import FiltersSideBar from "./FiltersSideBar";
 import Button from "../../components/common/Button/Button";
 import {ContentContext} from "../../context/ContentContext";
+import ROLES from "../../const/roles";
 
-const { Tab, Tabs } = TABS;
+const {Tab, Tabs} = TABS;
 
 const widthStyle = {minWidth: '115px'};
 
@@ -29,14 +30,22 @@ function SideBar(props) {
         : <FiltersSideBar/>;
     const rolesEngToRus = {
         'mentor': "Наставник (заявка)",
-        'curator' : "Куратор (заявка)",
-        'psychologist' : "Психолог (заявка)",
+        'curator': "Куратор (заявка)",
+        'psychologist': "Психолог (заявка)",
         'confirmedMentor': "Наставник",
         'confirmedCurator': "Куратор",
         'confirmedPsychologist': "Психолог",
         'admin': "Админ",
     };
     const userRole = rolesEngToRus[user.role];
+    const isRequest = [ROLES.MENTOR, ROLES.PSYCHOLOGIST, ROLES.CURATOR].includes(user.role);
+    const tabs = [
+        <Tab style={widthStyle} index={0} value={'/home/chats'} label={'Чаты'}/>,
+    ];
+    if(!isRequest) {
+        tabs.push(<Tab style={widthStyle} index={1} value={'/home/users'} label={'Пользователи'}/>)
+        tabs.push(<Tab style={widthStyle} index={2} value={'/home/requests'} label={'Заявки'}/>)
+    }
     return (
         <div className={classnames(styles.sideBar, !showMenu && styles.hidden)}>
             <Button onClick={() => setShowMenu(false)} className={styles.toggleButton}>X</Button>
@@ -46,9 +55,7 @@ function SideBar(props) {
                 <div className={styles.role}>{userRole}</div>
             </div>
             <Tabs value={value} onChange={handleChange}>
-                <Tab style={widthStyle} index={0} value={'/home/chats'} label={'Чаты'} />
-                <Tab style={widthStyle} index={1} value={'/home/users'} label={'Пользователи'}/>
-                <Tab style={widthStyle} index={2} value={'/home/requests'} label={'Заявки'}/>
+                {tabs}
             </Tabs>
             <div className={styles.sideContent}>
                 {menuContent}
