@@ -14,6 +14,7 @@ router.post(
 
 router.get('/im', authorize(), controller.getIm);
 router.get('/', authorize(), userSchemeValidations.getList, controller.getList);
-router.patch('/:userId', authorize([ADMIN]), userDataValidation.patchUser, userSchemeValidations.patchUser, controller.patchUser);
+router.patch('/:userId', authorize([ADMIN]), userSchemeValidations.patchUser, userDataValidation.patchUser, controller.patchUser);
+router.put('/activity/:userId', authorize(), userSchemeValidations.updateLastActivity, userDataValidation.updateLastActivity, controller.updateActivity);
 
 module.exports = router;

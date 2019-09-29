@@ -110,6 +110,16 @@ const userSchema = new mongoose.Schema({
     hasCar: {
         type: Boolean,
     },
+    lastActivity: {
+        type: Date,
+    },
+    lastActivityClicks: [{
+        clickedAt: Date,
+        user: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User',
+        },
+    }],
     role: {
         required: true,
         type: String,
@@ -152,7 +162,7 @@ userSchema.methods.getLastLogin = function getLastLogin() {
     return refreshTokens[0];
 };
 
-userSchema.methods.toDto = function toDto(options = { }) {
+userSchema.methods.toDto = function toDto(options = {}) {
     return {
         id: this._id,
         firstName: this.firstName,
@@ -175,6 +185,9 @@ userSchema.methods.toDto = function toDto(options = { }) {
         livingArea: this.livingArea,
         hasChild: this.hasChild,
         sex: this.sex,
+        createdAt: this.createdAt,
+        lastActivity: this.lastActivity,
+        lastActivityClicks: this.lastActivityClicks,
     };
 };
 

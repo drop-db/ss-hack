@@ -3,6 +3,7 @@ const sendResponse = require('../../utils/sendResponseV1');
 const wrapAsyncMiddleware = require('../../middlewares/asyncMiddleware');
 
 const { createUserWT } = require('../../services/users/createUser');
+const { updateLastActivityWT } = require('../../services/users/updateLastActivity');
 const { getById } = require('../../services/users/getById');
 const { getListOfUsers } = require('../../services/users/getList');
 const { updateUserWT } = require('../../services/users/updateUser');
@@ -38,3 +39,11 @@ async function patchUser(req, res) {
 }
 
 exports.patchUser = wrapAsyncMiddleware(patchUser);
+
+async function updateActivity(req, res) {
+    await updateLastActivityWT(req.user._id, req.params.userId);
+
+    return sendResponse(res, httpStatus.OK);
+}
+
+exports.updateActivity = wrapAsyncMiddleware(updateActivity);
