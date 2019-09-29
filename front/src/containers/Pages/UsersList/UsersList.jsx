@@ -1,17 +1,17 @@
 import React, {useContext, useEffect} from "react";
 import { withRouter } from "react-router";
-
-import ListComponents from '../../../components/common/List/List';
 import {ContentContext} from "../../../context/ContentContext";
 import ROLES from "../../../const/roles";
 
-import styles from './UsersList.modules.scss';
+import styles from './UsersList.module.scss';
 import {NavLink} from "react-router-dom";
-
-const {List, ListItem} = ListComponents;
+import Scrollbar from "../../../components/common/Scrollbar/Scrollbar";
+import {AuthContext} from "../../../context/AuthContext";
 
 function UsersList(props) {
     const {getAllUsers, users} = useContext(ContentContext);
+    const {user} = useContext(AuthContext);
+    const filteredUsers = users.filter(target => target.id !== user.id);
     useEffect(() => {
         getAllUsers();
     }, []);
@@ -21,35 +21,48 @@ function UsersList(props) {
     if (targetUserId) {
         return <UserPage users={users} userId={targetUserId[1]}/>
     } else if (path === '/home/requests') {
-        roles = [ ROLES.MENTOR, ROLES.CURATOR, ROLES.PSYCHOLOGIST ];
+        roles = [ROLES.MENTOR, ROLES.CURATOR, ROLES.PSYCHOLOGIST];
     } else if (path === '/home/users') {
-        roles = [ ROLES.CONFIRMED_MENTOR, ROLES.CONFIRMED_PSYCHOLOGIST, ROLES.CONFIRMED_CURATOR, ROLES.ADMIN];
+        roles = [ROLES.CONFIRMED_MENTOR, ROLES.CONFIRMED_PSYCHOLOGIST, ROLES.CONFIRMED_CURATOR, ROLES.ADMIN];
     }
 
-    const renderedList = renderList(users, roles);
-
-    return <List
-        className={styles.listContainer}
-        component="div"
-    >
-
-        <NavLink  to={'/home/users/2'}>user2</NavLink>
-        <NavLink  to={'/home/users/3'}>user3</NavLink>
-        {renderedList}
-    </List>
+    return renderList(filteredUsers, roles, path === '/home/requests' );
 }
 
-function renderList(users, rolesToRender) {
-    return users.map(user => {
-        if (!rolesToRender.some((role) => role === user.role)) return null;
-        return (
-            <>
-                <ListItem key={`${user.firstName}`}>
-                    <NavLink to={`/home/users/${user.id}`}>{user.firstName + ' ' + user.role}</NavLink>
-                </ListItem>
-            </>
-        )
-    })
+function renderList(users, rolesToRender, notConfirmed) {
+    const extraColumns = notConfirmed
+        ? <>
+            <div className={styles.thirdBlock}>
+                <div>{(new Date()).toISOString().substr(0,10)}</div>
+            </div>
+            <div className={styles.forthBlock}>
+                <div>На рассмотрении</div>
+            </div>
+        </>
+        : null;
+    return <Scrollbar autoHeight autoHeightMin='95vh'  >
+        {users.map(user => {
+            if (!rolesToRender.some((role) => role === user.role )) return null;
+
+                return (
+                    <NavLink className={styles.navLink} to={`/home/users/${user.id}`}>
+                            <div className={styles.userRow}>
+                             <div className={styles.firstBlock}>
+                                <div className={styles.avatar} />
+                                <div className={styles.name}>{user.firstName + ' ' +user.secondName}</div>
+                                <div className={styles.city}>{user.city}</div>
+                            </div>
+                           <div className={styles.secondBlock}>
+                                <div className={styles.age}>{user.sex ? 'Мужской' : 'Женский'} • 24</div>
+                           </div>
+                            {extraColumns}
+                            <div className={styles.lastBlock}>•••</div>
+                    </div>
+                    </NavLink>
+                )
+            })
+        }
+    </Scrollbar>
 }
 
 const UserPage = ({userId, users}) => {
