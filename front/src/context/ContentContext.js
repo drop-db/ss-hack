@@ -11,9 +11,11 @@ class ContextContainer extends React.Component {
         this.state = {
             children: [],
             users: [],
-            chats: []
+            chats: [],
+            showMenu: true,
         };
         this.funcs = {
+            setShowMenu: showMenu => this.setState({showMenu}),
             registerChild: this.registerChild,
             getUsersByRole: this.getUsersByRole,
             getAllUsers: this.getAllUsers,
@@ -27,11 +29,6 @@ class ContextContainer extends React.Component {
         };
 
         window.cc = this;
-    }
-
-
-    componentWillReceiveProps(nextProps) {
-        //
     }
 
     approveReport = async (mentorId) => {

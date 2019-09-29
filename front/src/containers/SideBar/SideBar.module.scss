@@ -10,6 +10,9 @@
         max-width: 115px !important;
       }
   }
+  &.hidden{
+    display:none;
+  }
   .toggleButton{
     display: none;
     @media(max-width: 720px){
@@ -21,6 +24,7 @@
   .tab{
     width: 115px;
   }
+
   .self{
     cursor: pointer;
     display: grid;
