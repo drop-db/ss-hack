@@ -1,14 +1,9 @@
-const _ = require('lodash');
 const User = require('../models/user.model');
 
 const faker = require('faker');
 
 faker.locale = 'ru';
 
-const FIRST_NAMES = ['Павел', 'Роман', 'Наталья', ' Ирина', 'Олег', 'Евгений'];
-const LAST_NAMES = ['Китов', 'Жуков', 'Костеж', ' Светлакова', 'Сентерева', 'Луговской'];
-const SECOND_NAMES = ['Андреевич', 'Павлович', 'Георгьевна', 'Михайловка', 'Владиславович', 'Иванович'];
-const LIVING_AREAS = ['Невский район', 'Свердловский район', 'Правобережный район', 'Центральный район', 'Новый район'];
 const PROFESSIONS = ['Воспитатель', 'Врач', 'Слесарь', 'Учитель', 'Бухгалтер'];
 const POSTS = ['Младший', 'Средний', 'Старший'];
 const CITIES = Object.values(require('../const/CITIES'));
