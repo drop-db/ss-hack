@@ -33,7 +33,8 @@ class ChatContainer extends React.Component {
         this.funcs = {
             sendMessage: this.sendMessage,
             startCall: this.startCall,
-            sendChatMessage: this.sendChatMessage
+            sendChatMessage: this.sendChatMessage,
+            dropCall: this.dropCall
         };
 
         this.eventHandlers = [
@@ -120,6 +121,27 @@ class ChatContainer extends React.Component {
         return await answerPromise;
     };
 
+    dropCall = (toUserId) => {
+        this.destroyWebRTCConnection(toUserId);
+        this.disableVideo();
+        this.setState({calling: false, remoteStream: null});
+    };
+
+    destroyWebRTCConnection = (toUserId) => {
+        const peer = this._peerConnections[toUserId];
+        if (peer.close) peer.close();
+
+         delete this._peerConnections[toUserId];
+    };
+
+    disableVideo = () => {
+        const {localStream} = this.state;
+        if (!localStream) return;
+
+        stopMediaStream(localStream);
+        this.setState({ localStream: null });
+    };
+
     _createPeerConnection = async (toUserId) => {
         const { localStream } = this.state;
         const peerConnection = new window.RTCPeerConnection({
@@ -133,6 +155,21 @@ class ChatContainer extends React.Component {
                 peerConnection.oniceconnectionstatechange = null;
             }
         };
+        peerConnection.onconnectionstatechange = function() {
+            switch(peerConnection.connectionState) {
+                case "connected":
+                    // The connection has become fully connected
+                    break;
+                case "disconnected":
+                case "failed":
+                    // One or more transports has terminated unexpectedly or in an error
+                    break;
+                case "closed":
+                    // The connection has been closed
+                    this.onClosePeerConnection();
+                    break;
+            }
+        }
         if (!localStream) {
             await new Promise(resolve => this._runVideo(resolve));
         }
@@ -141,6 +178,10 @@ class ChatContainer extends React.Component {
         const recentLocalStream = localStream || this.state.localStream;
         if (recentLocalStream) peerConnection.addStream(recentLocalStream);
         return peerConnection;
+    };
+
+    onClosePeerConnection = () => {
+        console.log('s toi storoni zakrili, nado i u menya', this.state);
     };
 
     _runVideo = (resolve) => {
@@ -412,6 +453,16 @@ const buildDataForEstablishWebRTC = (userId, toUserId, type, sdp) => {
         sdp,
     };
 };
+
+const stopMediaStream = (stream) => {
+    if (stream.getVideoTracks) stream.getVideoTracks().forEach(track => {
+        track.stop();
+    });
+    if (stream.getAudioTracks) stream.getAudioTracks().forEach(track => {
+        track.stop();
+    });
+}
+
 
 export default Container;
 export {ChatContext};
