@@ -4,6 +4,38 @@ import Scrollbar from "../../components/common/Scrollbar/Scrollbar";
 import styles from './ProfilePage.module.scss';
 import InputBase from '@material-ui/core/InputBase';
 
+const cities = [
+    {
+        value: 'krasnoyarsk',
+        label: 'Красноярск',
+    },
+    {
+        value: 'novosibirsk',
+        label: 'Новосибирск',
+    },
+    {
+        value: 'irkutsk',
+        label: 'Иркутск',
+    },
+    {
+        value: 'perm',
+        label: 'Пермь',
+    },
+    {
+        value: 'ufa',
+        label: 'Уфа',
+    },
+    {
+        value: 'tomsk',
+        label: 'Томск',
+    },
+    {
+        value: 'n_novgorod',
+        label: 'Нижний Новгород',
+    },
+];
+
+
 export default function(props) {
     const {updateUser, user, user: { firstName, lastName, secondName, sex,
         birthday, hasCar, hasChildren, isMarried, phone, email, city, livingArea,
@@ -30,6 +62,7 @@ export default function(props) {
         post,
         profession
     });
+    const userCity = (cities.find(c => c.value === city) || cities[0]).label;
 
     return (
         <div className={styles.outer}>
@@ -113,7 +146,7 @@ export default function(props) {
                         />
                         <InputBase
                             className={styles.textField}
-                            value={values.city}
+                            value={userCity}
                             onChange={handleChange('city')}
                         />
                         <InputBase

@@ -33,7 +33,7 @@ function SideBar(props) {
             <Button onClick={() => setShowMenu(false)} className={styles.toggleButton}>X</Button>
             <div className={styles.self} onClick={() => props.history.push('/home/profile')}>
                 <div className={styles.avatar}/>
-                <div className={styles.name}>{user.firstName + ' ' +user.lastName}</div>
+                <div className={styles.name}>{`${user.lastName} ${user.firstName}`}</div>
                 <div className={styles.role}>{user.role}</div>
             </div>
             <Tabs value={value} onChange={handleChange}>
