@@ -37,14 +37,14 @@ function SideBar(props) {
                 <div className={styles.role}>{user.role}</div>
             </div>
             <Tabs value={value} onChange={handleChange}>
-                <Tab style={widthStyle} index={0} value={'/home/chats'} label={'Chats'} />
-                <Tab style={widthStyle} index={1} value={'/home/users'} label={'Users'}/>
-                <Tab style={widthStyle} index={2} value={'/home/requests'} label={'Requests'}/>
+                <Tab style={widthStyle} index={0} value={'/home/chats'} label={'Чаты'} />
+                <Tab style={widthStyle} index={1} value={'/home/users'} label={'Пользователи'}/>
+                <Tab style={widthStyle} index={2} value={'/home/requests'} label={'Заявки'}/>
             </Tabs>
             <div className={styles.sideContent}>
                 {menuContent}
             </div>
-            <Button onClick={logout}>Logout</Button>
+            <Button onClick={logout}>Выход</Button>
         </div>
     );
 }

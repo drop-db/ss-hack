@@ -26,6 +26,10 @@ const roles = [
 
 const cities = [
     {
+        value: 'krasnoyarsk',
+        label: 'Красноярск',
+    },
+    {
         value: 'novosibirsk',
         label: 'Новосибирск',
     },
@@ -145,7 +149,10 @@ function RegisterForm(props) {
                     value={values.email}
                     onChange={handleChange('email')}
                     placeholder={'E-mail'}
+                    type="email"
+                    required
                     fullWidth
+                    maxLength={25}
                 />
                 <TextField
                     fullWidth
@@ -153,6 +160,7 @@ function RegisterForm(props) {
                     onChange={handleChange('password')}
                     type='password'
                     placeholder={'Пароль'}
+                    maxLength={20}
                 />
                 <TextField
                     value={values.confirmPassword}
@@ -160,30 +168,35 @@ function RegisterForm(props) {
                     type='password'
                     placeholder={'Подтвердите пароль'}
                     fullWidth
+                    maxLength={20}
                 />
                 <TextField
                     value={values.firstName}
                     onChange={handleChange('firstName')}
                     placeholder={'Имя'}
                     fullWidth
+                    maxLength={25}
                 />
                 <TextField
                     value={values.phone}
                     onChange={handleChange('phone')}
                     placeholder={'Телефон'}
                     fullWidth
+                    maxLength={15}
                 />
                 <TextField
                     value={values.lastName}
                     onChange={handleChange('lastName')}
                     placeholder={'Фамилия'}
                     fullWidth
+                    maxLength={15}
                 />
                 <TextField
                     value={values.secondName}
                     onChange={handleChange('secondName')}
                     placeholder={'Отчество'}
                     fullWidth
+                    maxLength={15}
                 />
                 <TextField
                     type='date'
@@ -197,36 +210,42 @@ function RegisterForm(props) {
                     onChange={handleChange('education')}
                     placeholder={'Образование'}
                     fullWidth
+                    maxLength={50}
                 />
                 <TextField
                     value={values.profession}
                     onChange={handleChange('profession')}
                     placeholder={'Профессия'}
                     fullWidth
+                    maxLength={50}
                 />
                 <TextField
                     value={values.post}
                     onChange={handleChange('post')}
                     placeholder={'Должность'}
                     fullWidth
+                    maxLength={20}
                 />
                 <TextField
                     value={values.livingArea}
                     onChange={handleChange('livingArea')}
                     placeholder={'Район проживания'}
                     fullWidth
+                    maxLength={50}
                 />
                 <TextField
                     value={values.experience}
                     onChange={handleChange('experience')}
                     placeholder={'Опыт работы с детьми'}
                     fullWidth
+                    maxLength={50}
                 />
                 <TextField
                     value={values.hobbies}
                     onChange={handleChange('hobbies')}
                     placeholder={'Хобби (через запятую)'}
                     fullWidth
+                    maxLength={100}
                 />
                 <TextField
                     select
@@ -305,6 +324,7 @@ function RegisterForm(props) {
                     fullWidth
                     value={values.about}
                     onChange={handleChange('about')}
+                    maxLength={250}
                 />
 
                 <div className={classes.halfWidth}>
