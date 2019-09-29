@@ -41,7 +41,7 @@ module.exports = function setMessageMessages(socket) {
             const chat = await findOrCreateChatWT(socket.userId, userId);
             if (!chat) return;
             socket.join(chat.id);
-            joinIfActive(chat.id);
+            joinIfActive(userId, chat.id);
             ack({ chat });
         } catch (e) {
             logError(e, roomData);
