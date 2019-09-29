@@ -30,7 +30,8 @@ class ChatContainer extends React.Component {
         this.state = DEFAULT_STATE;
         this.funcs = {
             sendMessage: this.sendMessage,
-            startCall: this.startCall
+            startCall: this.startCall,
+            sendChatMessage: this.sendChatMessage
         };
 
         this.eventHandlers = [
@@ -72,6 +73,10 @@ class ChatContainer extends React.Component {
         await this.send(WEBRTC, data);
     };
 
+    sendChatMessage = async (chatId, message) => {
+        await this.send('messages:new', { chatId, message })
+    };
+
     componentWillReceiveProps({authValue: nextAuthValue}) {
         const {authValue} = this.props;
         if (!authValue.user && nextAuthValue.user) {
@@ -96,7 +101,7 @@ class ChatContainer extends React.Component {
         await peer.setLocalDescription(offer);
         offer.sdp = setMediaBitrate(offer.sdp);
 
-        const userId = authValue && authValue.user && authValue.user.id || 'TEST_VALUE';
+        const userId = authValue && authValue.user && authValue.user.id;
         const dataToSend = buildDataForEstablishWebRTC(userId, toUserId, OFFER, offer.sdp);
         this._sendWebRTCMessage(dataToSend);
 
@@ -300,7 +305,7 @@ class ChatContainer extends React.Component {
         await peer.setLocalDescription(answer);
         answer.sdp = setMediaBitrate(answer.sdp);
 
-        const userId = authValue && authValue.user && authValue.user.id || 'TEST_VALUE';
+        const userId = authValue && authValue.user && authValue.user.id;
         this._ensureIceCandidateExchange(userId, peer, toUserId, Promise.resolve());
 
         this._sendWebRTCMessage(

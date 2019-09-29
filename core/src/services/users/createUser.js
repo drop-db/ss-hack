@@ -76,7 +76,7 @@ async function createUser(data, session) {
     const [systemChat] = await Chat.create([{
         name: 'Уведомления',
         system: user,
-    }]);
+    }], { session });
     const [firstMessage] = await ChatMessage.create([{
         message: `Благодарим за регистрацию ${firstName} ${lastName}! Этот канал предназначен для рассылки оповещений на платформе. В ближайшее время с вами свяжется ваш куратор и даст остальную информацию. Хорошего дня, ${firstName}!`,
         chat: systemChat,

@@ -1,8 +1,10 @@
 const mongoose = require('mongoose');
 const toDtoIfHas = require('../utils/toDtoIfHas');
 const CITIES = require('../const/CITIES');
+const USER_ROLES = require('../const/users/USER_ROLES');
 
 const CITIES_ARRAY = Object.values(CITIES);
+const USER_ROLES_ARRAY = Object.values(USER_ROLES);
 
 const chatSchema = new mongoose.Schema({
     name: {
@@ -11,6 +13,10 @@ const chatSchema = new mongoose.Schema({
     city: {
         type: String,
         enum: CITIES_ARRAY,
+    },
+    role: {
+        type: String,
+        enum: USER_ROLES_ARRAY,
     },
     system: {
         type: mongoose.Schema.Types.ObjectId,
