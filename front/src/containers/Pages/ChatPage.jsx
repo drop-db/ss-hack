@@ -91,6 +91,8 @@ function ChatPage(props) {
     const userName = getUserName(findUserByChatId());
     const chat = getChat(getChatId());
 
+    const disableCalls = chat.users.length !== 2;
+
     const isUsersCalling = callingTo && localStream && remoteStream;
 
     return (
@@ -101,14 +103,16 @@ function ChatPage(props) {
                     <div className={styles.name}>{userName}</div>
                     {/* if users in chat > 2 count of attendee*/}
                 </div>
-                <div className={styles.callButtons}>
-                    <Button onClick={call}>
-                        Позвонить
-                    </Button>
-                    <Button onClick={dropCallWithUser} classNames={styles.drop}>
-                        Завершить звонок
-                    </Button>
-                </div>
+                {!disableCalls && (
+                    <div className={styles.callButtons}>
+                        <Button onClick={call}>
+                            Позвонить
+                        </Button>
+                        <Button onClick={dropCallWithUser} classNames={styles.drop}>
+                            Завершить звонок
+                        </Button>
+                    </div>
+                )}
             </div>
             <div className={styles.chatView}>
                 <Scrollbar
