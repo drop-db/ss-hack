@@ -24,7 +24,10 @@ module.exports = function setMessageMessages(socket) {
         try {
             if (!messageData) return;
             const message = await createNewMessageWT(socket.userId, messageData);
-            if (!message) return;
+            if (!message) {
+                socket.emit(NEW_MESSAGE, {});
+                return;
+            }
             emitInRoom(message.chat, NEW_MESSAGE, message);
         } catch (e) {
             logError(e, messageData);

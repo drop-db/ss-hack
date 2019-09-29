@@ -5,8 +5,7 @@ async function readMessage(messageId, session) {
     if (messageId) return null;
     const message = await ChatMessage.findById(messageId).session(session);
     if (!message) return null;
-    message.read = true;
-    await message.save();
+    await ChatMessage.updateMany({ chat: message.chat, createdAt: { $lte: message.createdAt } });
     return message.chat;
 }
 
