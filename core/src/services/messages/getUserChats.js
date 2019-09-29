@@ -5,12 +5,16 @@ const withTransaction = require('../../utils/withTransaction');
 async function getUserChats(userId) {
     const user = await User.findById(userId).populate({
         path: 'chats',
-        populate: {
-            path: 'messages',
-            populate: {
-                path: 'sender',
+        populate: [
+            {
+                path: 'messages',
+                populate: {
+                    path: 'sender',
+                },
+            }, {
+                path: 'users',
             },
-        },
+        ],
     });
     if (!user) return null;
     if (user.role === User.USER_ROLES.ADMIN) {

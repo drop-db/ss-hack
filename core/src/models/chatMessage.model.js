@@ -42,6 +42,7 @@ chatMessageSchema.methods.toDto = function toDto() {
     return {
         id: this._id,
         message: this.message,
+        createdAt: this.createdAt,
         read: this.read,
         sender,
         chat,
