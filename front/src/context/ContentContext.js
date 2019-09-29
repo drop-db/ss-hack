@@ -23,7 +23,8 @@ class ContextContainer extends React.Component {
             getUserName: this.getUserName,
             getChat: this.getChat,
             fetchChats: this.fetchChats,
-            addChat: this.addChat
+            addChat: this.addChat,
+            getChatByUserId: this.getChatByUserId
         };
 
         window.cc = this;
@@ -101,6 +102,10 @@ class ContextContainer extends React.Component {
         const chatObj = this.state.chats.filter(chatTmp => chatTmp.id === chatId)[0];
         return chatObj
     };
+
+    getChatByUserId = (userId) => {
+        return this.state.chats.filter(chat => chat.users.some(userTmp => userTmp.id === userId))[0];
+    }
 
     registerChild = fields => {
         const onSuccess = () => console.log(fields);

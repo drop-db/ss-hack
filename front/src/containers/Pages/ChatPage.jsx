@@ -11,7 +11,7 @@ import {ContentContext} from "../../context/ContentContext";
 import {AuthContext} from "../../context/AuthContext";
 
 function ChatPage(props) {
-    const { localStream, remoteStream, calling, startCall, dropCall,sendChatMessage } = useContext(ChatContext);
+    const { localStream, remoteStream, callingTo, startCall, dropCall,sendChatMessage } = useContext(ChatContext);
     const { users, chats, getUserName, getChat } = useContext(ContentContext);
     const { user } = useContext(AuthContext);
 
@@ -91,7 +91,7 @@ function ChatPage(props) {
     const userName = getUserName(findUserByChatId());
     const chat = getChat(getChatId());
 
-    const isUsersCalling = calling && localStream && remoteStream;
+    const isUsersCalling = callingTo && localStream && remoteStream;
 
     return (
         <div className={styles.chatPage}>

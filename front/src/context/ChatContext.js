@@ -17,7 +17,7 @@ const {OFFER, ANSWER, CANDIDATE, WEBRTC} = WEBRTC_TYPES;
 const DEFAULT_STATE = {
     localStream: null,
     remoteStream: null,
-    calling: false
+    callingTo: null
 };
 const OFFER_OPTIONS = {
     offerToReceiveAudio: true,
@@ -103,8 +103,9 @@ class ChatContainer extends React.Component {
     };
 
     startCall = async (toUserId) => {
-        const { authValue } = this.props;
-        this.setState({ calling: true });
+        const { authValue, contentValue } = this.props;
+        const chatId = contentValue.getChatByUserId(toUserId);
+        this.setState({ callingTo: chatId});
 
         const peer = await this._createPeerConnection(toUserId);
         this._addPeerConnection(peer, toUserId);
@@ -124,7 +125,7 @@ class ChatContainer extends React.Component {
     dropCall = (toUserId) => {
         this.destroyWebRTCConnection(toUserId);
         this.disableVideo();
-        this.setState({calling: false, remoteStream: null});
+        this.setState({callingTo: null, remoteStream: null});
     };
 
     destroyWebRTCConnection = (toUserId) => {
@@ -333,15 +334,16 @@ class ChatContainer extends React.Component {
     //         userId - tot kto prisilaet offer
     //         sdp
     _handleRemoteOffer = async (data) => {
-        const { authValue, history } = this.props;
+        const { authValue, contentValue } = this.props;
         const toUserId = data.userId;
+        const chatId = contentValue.getChatByUserId(toUserId);
+        this.setState({ callingTo: chatId});
 
         const offer = new window.RTCSessionDescription({
             type: OFFER,
             sdp: data.sdp,
         });
 
-        this.setState({ calling: true });
         // preventing incoming connection if we already send offer
         // const isAlreadyHasConnection = _.get(this._tableOfWaitingResults, toUserId, false);
         // const isLastConnection = this.attendees.indexOf(this.userLabel) < this.attendees.indexOf(toUserId);
