@@ -24,6 +24,7 @@ function LoginForm(props) {
                 placeholder={'E-mail'}
             />
             <TextField
+                type='password'
                 value={values.password}
                 onChange={handleChange('password')}
                 placeholder={'Пароль'}

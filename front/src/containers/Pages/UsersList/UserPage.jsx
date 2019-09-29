@@ -1,9 +1,12 @@
 import React, {useContext, useState} from 'react';
+import {NavLink} from 'react-router-dom';
+
 import Scrollbar from "../../../components/common/Scrollbar/Scrollbar";
 import styles from './UserPage.module.scss';
 import InputBase from '@material-ui/core/InputBase';
 import Button from "../../../components/common/Button/Button";
 import {ContentContext} from "../../../context/ContentContext";
+import roles from '../../../const/roles'
 
 export default function({userId, users}) {
     const user = users.filter(x => x.id ===userId)[0];
@@ -32,6 +35,11 @@ export default function({userId, users}) {
         post,
         profession
     });
+
+    const statistics = user.role===roles.CONFIRMED_PSYCHOLOGIST
+        ? {actions: user.lastActivityClicks}
+        : null;
+
 
     return (
         <div className={styles.outer}>
@@ -157,9 +165,19 @@ export default function({userId, users}) {
                             />
                         </div>
                     </div>
+                    {statistics && <div>
+                        {statistics.actions.map(row => <ActionRow row={row} users={users} />)}
+                    </div>}
                 </div>
             </Scrollbar>
         </div>
     )
 }
 
+const ActionRow = ({row, users}) => {
+    const user = users.filter(target => target.id ===row.user)[0];
+    const linkLabel = `${user.firstName} ${user.secondName} ${user.lastName}`;
+    const date = row.clickedAt.substr(0,10);
+    console.log(linkLabel)
+    return <div style={{display:'flex'}}>Отчет пользователя <NavLink style={{margin:'0 6px'}} to={`/home/users/${user.id}`}> {linkLabel} </NavLink> был принят {date}</div>;
+};
