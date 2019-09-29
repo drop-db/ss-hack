@@ -41,7 +41,7 @@ chatMessageSchema.methods.toDto = function toDto() {
     const chat = this.chat && this.chat._id ? this.chat._id : this.chat;
     return {
         id: this._id,
-        message: this.name,
+        message: this.message,
         read: this.read,
         sender,
         chat,
