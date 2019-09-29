@@ -40,8 +40,16 @@ export default function(props) {
     const {updateUser, user, user: { firstName, lastName, secondName, sex,
         birthday, hasCar, hasChildren, isMarried, phone, email, city, livingArea,
         education, experience, post, profession}} = useContext(AuthContext);
+export default function (props) {
+    const {
+        updateUser, user, user: {
+            firstName, lastName, secondName, sex,
+            birthday, hasCar, hasChildren, isMarried, phone, email, city, livingArea,
+            education, experience, post, profession
+        }
+    } = useContext(AuthContext);
     const handleChange = name => event => {
-        setValues({ ...values, [name]: event.target.value });
+        setValues({...values, [name]: event.target.value});
     };
 
     const [values, setValues] = useState({
@@ -63,6 +71,9 @@ export default function(props) {
         profession
     });
     const userCity = (cities.find(c => c.value === city) || cities[0]).label;
+
+    values.birthday = new Date(values.birthday).toISOString().substr(0, 10);
+
 
     return (
         <div className={styles.outer}>
@@ -98,7 +109,6 @@ export default function(props) {
                                 onChange={handleChange('secondName')}
                             />
                             <InputBase
-                                type='date'
                                 className={styles.textField}
                                 value={values.birthday}
                                 onChange={handleChange('birthday')}
