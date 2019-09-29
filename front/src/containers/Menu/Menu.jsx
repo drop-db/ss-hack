@@ -66,8 +66,9 @@ export default function Menu(items1){
     const privateChats = commonChats.map((chat) => {
         const userName = getUserNameByChatId(chat.id);
         if (userName === null) return null;
-
-        return { label: userName, path: `/home/chats/${chat.id}`};
+        const userInChat = chat.users.find(u => u.id === user.id);
+        const label = userInChat ? userName : chat.name;
+        return { label, path: `/home/chats/${chat.id}`};
     }).filter(chat => chat !== null);
 
 
