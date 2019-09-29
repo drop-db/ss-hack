@@ -10,10 +10,14 @@
         max-width: 115px !important;
       }
   }
-  padding: 1.5rem .75rem;
-  &.hidden{
-    width: 0;
+  .toggleButton{
+    display: none;
+    @media(max-width: 720px){
+      display: flex;
+    }
   }
+  padding: 1.5rem .75rem;
+
   .tab{
     width: 115px;
   }

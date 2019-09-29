@@ -1,0 +1,70 @@
+.listContainer {
+  background-color: green;
+}
+
+
+.navLink{
+  text-decoration: none !important;
+}
+.userRow{
+  cursor: pointer;
+  min-width: 100%;
+  display: grid;
+  grid-template-columns: 3fr 2fr 2fr 2fr 1fr;
+  grid-template-rows: 70px;
+  color: black;
+  text-decoration: none;
+  .firstBlock{
+    margin: auto 1rem;
+    display: grid;
+    grid-template: 'avatar name' 22px 'avatar city' 22px / 52px auto;
+    .avatar{
+      grid-area: avatar;
+      height: 44px;
+      width: 44px;
+      border-radius: 2rem;
+      background-color: #9EAEC7;
+    }
+    .name{
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      display: flex;
+      justify-content: flex-start;
+      grid-area: name;
+      font-size: 15px;
+      font-weight: 600;
+      color: black;
+    }
+
+    .city{
+      display: flex;
+      justify-content: flex-start;
+      grid-area: city;
+      color: #1d1d1b;
+      opacity: 0.3;
+    }
+  }
+
+  .secondBlock{
+    display: flex;
+    .age{
+      margin:auto;
+      height: 1rem;
+    }
+  }
+
+  .thirdBlock{
+    display: flex;
+    margin: auto;
+  }
+  .forthBlock{
+    display: flex;
+    margin: auto;
+  }
+  .lastBlock{
+    display: flex;
+
+    margin:auto;
+  }
+}

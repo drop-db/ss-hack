@@ -1,5 +1,5 @@
 import React, {useContext} from "react";
-import {Route, Redirect, NavLink} from "react-router-dom";
+import {Route, Redirect} from "react-router-dom";
 import SideBar from "../../SideBar/SideBar";
 import styles from './home.module.scss';
 import ProfilePage from "../ProfilePage";
@@ -18,7 +18,7 @@ function HomePage() {
             <div className={styles.mainContainer}>
                 <Route path="/home/profile" component={ProfilePage} />
                 <Route exact path="/home/chats" component={ChatPage} />
-                <Route path= '/home/users' component={UsersList} />
+                <Route path={[ '/home/requests', '/home/users']} component={UsersList} />
                 {isAdmin && (
                     <React.Fragment>
                         <Route path={[ '/home/requests', '/home/users']} component={UsersList} />
@@ -31,8 +31,5 @@ function HomePage() {
     )
 }
 
-function PsychologistsList() {
-    return <div>PsychologistsList</div>
-}
 
 export default HomePage;
