@@ -2,6 +2,8 @@ import React, {useContext, useState} from 'react';
 import Scrollbar from "../../../components/common/Scrollbar/Scrollbar";
 import styles from './UserPage.module.scss';
 import InputBase from '@material-ui/core/InputBase';
+import Button from "../../../components/common/Button/Button";
+import {ContentContext} from "../../../context/ContentContext";
 
 export default function({userId, users}) {
     const user = users.filter(x => x.id ===userId)[0];
@@ -11,7 +13,7 @@ export default function({userId, users}) {
     const handleChange = name => event => {
         setValues({ ...values, [name]: event.target.value });
     };
-
+    const {approveReport} = useContext(ContentContext);
     const [values, setValues] = useState({
         firstName,
         lastName,
@@ -34,6 +36,7 @@ export default function({userId, users}) {
     return (
         <div className={styles.outer}>
             <h2>{firstName+' '+lastName}</h2>
+            <Button onClick={()=>approveReport(user.id)} className={styles.approveButton}>Подтвердить отчет</Button>
             <Scrollbar autoHeight autoHeightMin={'90vh'}>
                 <div className={styles.container}>
                     <div className={styles.personal}>

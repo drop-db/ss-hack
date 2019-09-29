@@ -10,10 +10,11 @@
   cursor: pointer;
   min-width: 100%;
   display: grid;
-  grid-template-columns: 3fr 2fr 2fr 2fr 1fr;
+  grid-template-columns: 3fr 2fr 2fr 2fr 1fr 2fr;
   grid-template-rows: 70px;
   color: black;
   text-decoration: none;
+  border-top: 1px solid  #9EAEC7;
   .firstBlock{
     margin: auto 1rem;
     display: grid;

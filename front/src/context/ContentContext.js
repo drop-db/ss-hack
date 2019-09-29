@@ -18,15 +18,24 @@ class ContextContainer extends React.Component {
             getUsersByRole: this.getUsersByRole,
             getAllUsers: this.getAllUsers,
             getAllChildren: this.getAllChildren,
-            fetchInit: this.fetchInit
+            fetchInit: this.fetchInit,
+            approveReport: this.approveReport
         };
 
         window.cc = this;
     }
 
+
     componentWillReceiveProps(nextProps) {
         //
     }
+
+    approveReport = async (mentorId) => {
+        const onSuccess = (data) => console.log(data);
+        const onError = error => console.log(error);
+        axios.put(`${host.HOST_API}/users/activity/${mentorId}`, {}, this._getRequestConfig())
+            .then( onSuccess, onError)
+    };
 
     fetchInit = async (user) => {
         await this.getAllUsers();

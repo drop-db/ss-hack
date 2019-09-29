@@ -10,6 +10,7 @@ import Button from "../../../components/common/Button/Button";
 import Scrollbar from "../../../components/common/Scrollbar/Scrollbar";
 import {AuthContext} from "../../../context/AuthContext";
 import UserPage from './UserPage';
+import _ from 'lodash';
 
 const eventCreateRoom = 'messages:room'; // userId
 
@@ -37,6 +38,7 @@ function UsersList(props) {
     };
 
     const renderList = (users, rolesToRender, notConfirmed) => {
+
         const extraColumns = notConfirmed
             ? <>
                 <div className={styles.thirdBlock}>
@@ -47,10 +49,15 @@ function UsersList(props) {
                 </div>
             </>
             : null;
+
         return <Scrollbar autoHeight autoHeightMin='95vh'  >
             {users.map(user => {
                 if (!rolesToRender.some((role) => role === user.role )) return null;
-
+                const {lastActivityClicks} = user;
+                const sortedActivities = _.sortBy(lastActivityClicks,o => o.clickedAt)
+                const sortedActivitiesLength = sortedActivities.length;
+                const lastActivity = sortedActivitiesLength ? sortedActivities[sortedActivitiesLength-1].clickedAt : null;
+                const dataClicks = {total: sortedActivitiesLength, last: lastActivity}
                 return (
                     <NavLink className={styles.navLink} to={`/home/users/${user.id}`}>
                         <div className={styles.userRow}>
@@ -62,7 +69,17 @@ function UsersList(props) {
                             <div className={styles.secondBlock}>
                                 <div className={styles.age}>{user.sex ? 'Мужской' : 'Женский'} • 24</div>
                             </div>
-                            {extraColumns}
+                            { notConfirmed
+                                ? extraColumns
+                                : <>
+                                        <div className={styles.thirdBlock}>
+                                        <div>{ dataClicks.last ? new Date(dataClicks.last).toISOString().substr(0,10) : '-'}</div>
+                                        </div>
+                                        <div className={styles.forthBlock}>
+                                        <div>{dataClicks.total}</div>
+                                        </div>
+                                </>
+                            }
                             <div className={styles.lastBlock}>•••</div>
                             <Button onClick={handleContact.bind(this, user.id)}>Связаться</Button>
                         </div>
